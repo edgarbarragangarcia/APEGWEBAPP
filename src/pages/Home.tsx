@@ -311,15 +311,22 @@ const Home: React.FC = () => {
                                         }
                                     }}
                                     style={{
-                                        padding: '6px 14px',
-                                        borderRadius: '20px',
-                                        background: activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.05)',
-                                        color: activeTab === tab ? 'var(--primary)' : 'white',
-                                        fontSize: '11px',
+                                        padding: '8px 18px',
+                                        borderRadius: '40px',
+                                        background: activeTab === tab ? '#FFFFFF' : 'rgba(255,255,255,0.04)',
+                                        color: activeTab === tab ? '#000000' : '#FFFFFF',
+                                        fontSize: '13px',
                                         fontWeight: '600',
-                                        border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
+                                        border: '1px solid ' + (activeTab === tab ? '#FFFFFF' : 'rgba(255,255,255,0.08)'),
                                         whiteSpace: 'nowrap',
-                                        transition: 'all 0.3s ease'
+                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        cursor: 'pointer'
+                                    }}
+                                    onMouseEnter={e => {
+                                        if (activeTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        if (activeTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
                                     }}
                                 >
                                     {tab}
@@ -353,30 +360,56 @@ const Home: React.FC = () => {
                             {promotions.map((promo, idx) => (
                                 <motion.div
                                     key={idx}
-                                    whileTap={{ scale: 0.98 }}
+                                    whileHover={{ scale: 1.02 }}
                                     style={{
-                                        minWidth: '280px',
-                                        height: '90px',
-                                        borderRadius: '20px',
-                                        background: `linear-gradient(135deg, ${promo.color} 0%, rgba(0,0,0,0.6) 100%)`,
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        padding: '12px',
+                                        minWidth: '400px',
+                                        height: '180px',
+                                        borderRadius: '24px',
+                                        background: '#121212',
+                                        border: '1px solid rgba(255,255,255,0.08)',
                                         display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
                                         position: 'relative',
                                         overflow: 'hidden',
                                         scrollSnapAlign: 'start',
                                         cursor: 'pointer'
                                     }}
                                 >
-                                    {/* Background Image */}
                                     <div style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        zIndex: 0,
-                                        opacity: 0.5
+                                        flex: 1,
+                                        padding: '24px',
+                                        zIndex: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center'
                                     }}>
+                                        <div style={{
+                                            fontSize: '10px',
+                                            fontWeight: '800',
+                                            color: 'var(--secondary)',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.1em',
+                                            marginBottom: '8px'
+                                        }}>
+                                            {promo.badge}
+                                        </div>
+                                        <h3 style={{
+                                            fontSize: '22px',
+                                            fontWeight: '800',
+                                            color: 'white',
+                                            lineHeight: '1.2',
+                                            maxWidth: '200px'
+                                        }}>
+                                            {promo.title}
+                                        </h3>
+                                        <p style={{
+                                            fontSize: '12px',
+                                            color: 'rgba(255,255,255,0.5)',
+                                            marginTop: '8px'
+                                        }}>
+                                            {promo.subtitle}
+                                        </p>
+                                    </div>
+                                    <div style={{ width: '45%', position: 'relative' }}>
                                         <img
                                             src={promo.image}
                                             alt=""
@@ -385,46 +418,8 @@ const Home: React.FC = () => {
                                         <div style={{
                                             position: 'absolute',
                                             inset: 0,
-                                            background: `linear-gradient(to right, ${promo.color.replace('0.4', '0.8')} 0%, transparent 70%)`,
+                                            background: 'linear-gradient(to right, #121212 0%, transparent 40%)'
                                         }} />
-                                    </div>
-
-                                    <div style={{ position: 'relative', zIndex: 1 }}>
-                                        <div style={{
-                                            fontSize: '9px',
-                                            fontWeight: '900',
-                                            color: 'white',
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.1em',
-                                            marginBottom: '4px',
-                                            background: 'rgba(0,0,0,0.3)',
-                                            alignSelf: 'flex-start',
-                                            padding: '2px 6px',
-                                            borderRadius: '4px',
-                                            display: 'inline-block'
-                                        }}>
-                                            {promo.badge}
-                                        </div>
-                                        <h3 style={{
-                                            fontSize: '15px',
-                                            fontWeight: '900',
-                                            color: 'white',
-                                            margin: 0,
-                                            marginBottom: '2px',
-                                            lineHeight: 1.2,
-                                            textShadow: '0 2px 4px rgba(0,0,0,0.5)'
-                                        }}>
-                                            {promo.title}
-                                        </h3>
-                                        <p style={{
-                                            fontSize: '10px',
-                                            color: 'rgba(255,255,255,0.9)',
-                                            margin: 0,
-                                            lineHeight: 1.2,
-                                            textShadow: '0 1px 2px rgba(0,0,0,0.5)'
-                                        }}>
-                                            {promo.subtitle}
-                                        </p>
                                     </div>
                                 </motion.div>
                             ))}

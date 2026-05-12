@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --primary: #0E2F1F;
-  --primary-light: #1A4D35;
+  --primary: #060606;
+  --primary-light: #121212;
   --secondary: #A3E635;
   --accent: #D4AF37;
-  --bg-dark: #0A0A0A;
-  --bg-card: rgba(30, 30, 30, 0.7);
+  --bg-dark: #060606;
+  --bg-card: rgba(20, 20, 20, 0.8);
   --text-main: #FFFFFF;
-  --text-dim: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-bg: rgba(255, 255, 255, 0.05);
+  --text-dim: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.03);
   --font-main: 'Outfit', sans-serif;
 
   /* Responsive layout */

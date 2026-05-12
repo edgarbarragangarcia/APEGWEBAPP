@@ -60,12 +60,12 @@ const WebNavbar: React.FC = () => {
                 zIndex: 1000,
                 transition: 'all 0.3s ease',
                 background: scrolled
-                    ? 'rgba(14, 47, 31, 0.95)'
-                    : 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)',
-                backdropFilter: scrolled ? 'blur(25px) saturate(180%)' : 'none',
-                WebkitBackdropFilter: scrolled ? 'blur(25px) saturate(180%)' : 'none',
-                borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.3)' : 'none',
+                    ? 'rgba(6, 6, 6, 0.95)'
+                    : 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)',
+                backdropFilter: scrolled ? 'blur(30px) saturate(180%)' : 'none',
+                WebkitBackdropFilter: scrolled ? 'blur(30px) saturate(180%)' : 'none',
+                borderBottom: scrolled ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                boxShadow: scrolled ? '0 10px 40px rgba(0,0,0,0.5)' : 'none',
             }}>
                 <div style={{
                     maxWidth: 'var(--content-max-width)',
@@ -278,12 +278,12 @@ const WebNavbar: React.FC = () => {
                                                     top: '100%',
                                                     marginTop: '8px',
                                                     width: '220px',
-                                                    background: 'rgba(14,47,31,0.98)',
-                                                    backdropFilter: 'blur(20px)',
-                                                    border: '1px solid rgba(255,255,255,0.1)',
-                                                    borderRadius: '16px',
-                                                    padding: '8px',
-                                                    boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                                                    background: 'rgba(6, 6, 6, 0.98)',
+                                                    backdropFilter: 'blur(30px)',
+                                                    border: '1px solid rgba(255,255,255,0.08)',
+                                                    borderRadius: '20px',
+                                                    padding: '12px',
+                                                    boxShadow: '0 30px 60px rgba(0,0,0,0.6)',
                                                 }}
                                             >
                                                 <div style={{
@@ -442,13 +442,13 @@ const WebNavbar: React.FC = () => {
                                 right: 0,
                                 bottom: 0,
                                 width: '280px',
-                                background: 'rgba(14,47,31,0.98)',
-                                backdropFilter: 'blur(25px)',
+                                background: 'rgba(6,6,6,0.98)',
+                                backdropFilter: 'blur(30px)',
                                 zIndex: 999,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 padding: '80px 24px 32px',
-                                borderLeft: '1px solid rgba(255,255,255,0.08)',
+                                borderLeft: '1px solid rgba(255,255,255,0.05)',
                             }}
                         >
                             {session && profile && (
