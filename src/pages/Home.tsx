@@ -219,17 +219,14 @@ const Home: React.FC = () => {
     const isWaitingForProduct = isDeepLink && !selectedProduct;
 
     return (
-        <div className="animate-fade" style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            right: '0',
-            bottom: '0',
+        <>
+            <div className="animate-fade" style={{
+            minHeight: '100vh',
             width: '100%',
-            overflow: 'hidden',
-            background: 'var(--primary)'
+            background: 'var(--primary)',
+            paddingTop: 'var(--navbar-height)',
+            overflowX: 'hidden'
         }}>
-            {/* Si estamos esperando un producto por deep link, mostramos loader plano para evitar el glitch del home */}
             {isWaitingForProduct && (
                 <div style={{
                     position: 'fixed',
@@ -247,29 +244,22 @@ const Home: React.FC = () => {
                 </div>
             )}
 
-            {/* Contenido del Home - Solo visible si no estamos esperando un producto o si el producto ya está cargado */}
             <div style={{
                 opacity: isWaitingForProduct ? 0 : 1,
                 transition: 'opacity 0.3s ease',
-                height: '100%',
                 width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                overflow: 'hidden'
             }}>
-                <PageHero />
-
-                {/* Header y Stats Fijos */}
-                <div style={{
-                    position: 'absolute',
-                    top: 'var(--header-offset-top)',
-                    left: '0',
-                    right: '0',
-                    zIndex: 900,
-                    background: 'transparent',
-                    paddingBottom: '5px'
-                }}>
-                    <div style={{ padding: '0 20px' }}>
+                {/* Hero Section - Now as a clean background/banner */}
+                <div style={{ position: 'relative', height: '300px', width: '100%', overflow: 'hidden' }}>
+                    <PageHero />
+                    <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to bottom, transparent 0%, var(--primary) 100%)',
+                        zIndex: 1
+                    }} />
+                    
+                    <div className="main-container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'flex-end', paddingBottom: '40px' }}>
                         <PageHeader
                             noMargin
                             showBack={false}
@@ -277,205 +267,110 @@ const Home: React.FC = () => {
                             subtitle="¿Listo para tu próxima victoria en el campo?"
                         />
                     </div>
+                </div>
 
-                    {/* Stats cards removed as per user request */}
-
-                    {/* Category Filters - Now Static */}
+                <div className="main-container" style={{ marginTop: '-20px', position: 'relative', zIndex: 10 }}>
+                    
+                    {/* Category Tabs - Clean Scroll */}
                     <div style={{
-                        marginTop: '12px',
-                        marginBottom: '12px'
+                        display: 'flex',
+                        gap: '10px',
+                        overflowX: 'auto',
+                        padding: '10px 0 20px 0',
+                        scrollbarWidth: 'none',
                     }}>
-                        {/* Category Filters */}
-                        <div style={{
-                            display: 'flex',
-                            gap: '8px',
-                            overflowX: 'auto',
-                            paddingBottom: '8px',
-                            paddingLeft: '20px',
-                            paddingRight: '20px',
-                            scrollbarWidth: 'none',
-                            width: '100%',
-                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
-                            maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
-                        }}>
-                            {categories.map((tab, idx) => (
-                                <button
-                                    key={tab || `tab-${idx}`}
-                                    onClick={() => {
-                                        if (tab === 'Todo') {
-                                            setActiveTab(tab);
-                                        } else {
-                                            logView('category', tab);
-                                            const route = tab.toLowerCase().replace(' ', '-');
-                                            navigate(`/category/${route}`);
-                                        }
-                                    }}
-                                    style={{
-                                        padding: '8px 18px',
-                                        borderRadius: '40px',
-                                        background: activeTab === tab ? '#FFFFFF' : 'rgba(255,255,255,0.04)',
-                                        color: activeTab === tab ? '#000000' : '#FFFFFF',
-                                        fontSize: '13px',
-                                        fontWeight: '600',
-                                        border: '1px solid ' + (activeTab === tab ? '#FFFFFF' : 'rgba(255,255,255,0.08)'),
-                                        whiteSpace: 'nowrap',
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        cursor: 'pointer'
-                                    }}
-                                    onMouseEnter={e => {
-                                        if (activeTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                                    }}
-                                    onMouseLeave={e => {
-                                        if (activeTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                                    }}
-                                >
-                                    {tab}
-                                </button>
-                            ))}
-                        </div>
+                        {categories.map((tab, idx) => (
+                            <button
+                                key={tab || `tab-${idx}`}
+                                onClick={() => {
+                                    if (tab === 'Todo') {
+                                        setActiveTab(tab);
+                                    } else {
+                                        logView('category', tab);
+                                        const route = tab.toLowerCase().replace(' ', '-');
+                                        navigate(`/category/${route}`);
+                                    }
+                                }}
+                                style={{
+                                    padding: '10px 22px',
+                                    borderRadius: '12px',
+                                    background: activeTab === tab ? 'var(--secondary)' : 'var(--bg-card)',
+                                    color: activeTab === tab ? 'var(--primary)' : 'white',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
+                                    whiteSpace: 'nowrap',
+                                    cursor: 'pointer',
+                                    boxShadow: activeTab === tab ? '0 4px 15px rgba(163,230,53,0.3)' : 'none'
+                                }}
+                            >
+                                {tab}
+                            </button>
+                        ))}
                     </div>
 
-                    {/* Featured Carousel */}
+                    {/* Promotional Banners Carousel */}
                     <div
                         ref={carouselRef}
                         style={{
-                            marginTop: '0px',
-                            marginBottom: '0px',
+                            marginBottom: '40px',
                             overflowX: 'auto',
                             scrollSnapType: 'x mandatory',
-                            WebkitOverflowScrolling: 'touch',
                             scrollbarWidth: 'none',
-                            msOverflowStyle: 'none',
-                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
-                            maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
                         }}
                     >
-                        <div style={{
-                            display: 'flex',
-                            gap: '12px',
-                            paddingBottom: '8px',
-                            paddingLeft: '20px',
-                            paddingRight: '20px'
-                        }}>
+                        <div style={{ display: 'flex', gap: '20px' }}>
                             {promotions.map((promo, idx) => (
                                 <motion.div
                                     key={idx}
-                                    whileHover={{ scale: 1.02 }}
+                                    whileHover={{ y: -4 }}
                                     style={{
-                                        minWidth: '400px',
-                                        height: '180px',
-                                        borderRadius: '24px',
-                                        background: '#121212',
+                                        minWidth: '350px',
+                                        flex: '0 0 350px',
+                                        height: '200px',
+                                        borderRadius: '16px',
+                                        background: 'var(--bg-card)',
                                         border: '1px solid rgba(255,255,255,0.08)',
                                         display: 'flex',
+                                        flexDirection: 'column',
                                         position: 'relative',
                                         overflow: 'hidden',
                                         scrollSnapAlign: 'start',
                                         cursor: 'pointer'
                                     }}
                                 >
-                                    <div style={{
-                                        flex: 1,
-                                        padding: '24px',
-                                        zIndex: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center'
-                                    }}>
-                                        <div style={{
-                                            fontSize: '10px',
-                                            fontWeight: '800',
-                                            color: 'var(--secondary)',
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.1em',
-                                            marginBottom: '8px'
-                                        }}>
-                                            {promo.badge}
-                                        </div>
-                                        <h3 style={{
-                                            fontSize: '22px',
-                                            fontWeight: '800',
-                                            color: 'white',
-                                            lineHeight: '1.2',
-                                            maxWidth: '200px'
-                                        }}>
-                                            {promo.title}
-                                        </h3>
-                                        <p style={{
-                                            fontSize: '12px',
-                                            color: 'rgba(255,255,255,0.5)',
-                                            marginTop: '8px'
-                                        }}>
-                                            {promo.subtitle}
-                                        </p>
+                                    <div style={{ height: '60%', width: '100%', overflow: 'hidden' }}>
+                                        <img src={promo.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
                                     </div>
-                                    <div style={{ width: '45%', position: 'relative' }}>
-                                        <img
-                                            src={promo.image}
-                                            alt=""
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                        />
-                                        <div style={{
-                                            position: 'absolute',
-                                            inset: 0,
-                                            background: 'linear-gradient(to right, #121212 0%, transparent 40%)'
-                                        }} />
+                                    <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>{promo.badge}</div>
+                                        <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'white', margin: 0 }}>{promo.title}</h3>
                                     </div>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
-                </div>
+                    {/* Products Section */}
+                    <div style={{ marginBottom: '60px' }}>
+                        <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px', letterSpacing: '-0.5px' }}>
+                            Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
+                        </h2>
 
-                {/* Area de Scroll para el resto del contenido */}
-                <div style={{
-                    position: 'absolute',
-                    top: 'calc(var(--header-offset-top) + 210px)',
-                    left: '0',
-                    right: '0',
-                    bottom: 'calc(var(--nav-height) + 5px)',
-                    overflowY: 'auto',
-                    padding: '10px 20px 20px 20px',
-                    overflowX: 'hidden'
-                }}>
-
-
-                    {/* Content Area */}
-                    <div style={{ width: '100%', paddingBottom: '20px' }}>
-                        {/* Show skeleton loaders while loading */}
                         {!featuredProducts || featuredProducts.length === 0 || featuredLoading ? (
-                            <div className="product-grid" style={{
-                                paddingBottom: '20px',
-                                justifyContent: 'center'
-                            }}>
-                                {Array.from({ length: 6 }).map((_, index) => (
-                                    <div
-                                        key={`skeleton-${index}`}
-                                        className="skeleton"
-                                        style={{
-                                            height: '100%',
-                                            minWidth: 0,
-                                            overflow: 'hidden',
-                                            borderRadius: '32px',
-                                            background: 'rgba(255, 255, 255, 0.03)',
-                                            border: '1px solid rgba(255, 255, 255, 0.05)'
-                                        }}
-                                    />
+                            <div className="product-grid">
+                                {Array.from({ length: 10 }).map((_, index) => (
+                                    <div key={`skel-${index}`} style={{ height: '350px', background: 'var(--bg-card)', borderRadius: '12px', opacity: 0.3 }} className="skeleton" />
                                 ))}
                             </div>
                         ) : filteredProducts.length > 0 ? (
-                            <div className="product-grid" style={{
-                                paddingBottom: '20px',
-                                justifyContent: 'center'
-                            }}>
+                            <div className="product-grid">
                                 {filteredProducts.map((product, index) => (
                                     <motion.div
-                                        key={product.id || `product-${index}`}
-                                        initial={{ opacity: 0, y: 15 }}
+                                        key={product.id || `p-${index}`}
+                                        initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-                                        style={{ height: '100%', minWidth: 0, overflow: 'hidden' }}
+                                        viewport={{ once: true }}
                                     >
                                         <PremiumProductCard
                                             product={product}
@@ -486,106 +381,40 @@ const Home: React.FC = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div style={{ color: 'var(--text-dim)', fontSize: '14px', padding: '20px 0', width: '100%', textAlign: 'center' }}>No se encontraron productos.</div>
+                            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-dim)' }}>No se encontraron productos en esta categoría.</div>
                         )}
                     </div>
 
-
-                    {/* Featured Caddies / Tournaments */}
-                    <div style={{ marginBottom: '40px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '5px' }}>
-                            <h3 style={{ fontSize: '22px', fontWeight: '900', letterSpacing: '-0.8px', color: 'white' }}>Torneos <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: '500' }}>Populares</span></h3>
-                            <motion.button
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/tournaments')}
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.05)',
-                                    backdropFilter: 'blur(10px)',
-                                    WebkitBackdropFilter: 'blur(10px)',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                                    color: 'rgba(255,255,255,0.6)',
-                                    fontSize: '13px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    cursor: 'pointer',
-                                    fontWeight: '800',
-                                    padding: '6px 14px',
-                                    borderRadius: '20px'
-                                }}
-                            >
-                                Calendario <ChevronRight size={14} />
-                            </motion.button>
+                    {/* Tournaments Section */}
+                    <div style={{ paddingBottom: '80px' }}>
+                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                            <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>Próximos Torneos</h3>
+                            <button onClick={() => navigate('/tournaments')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: '700', cursor: 'pointer' }}>
+                                Ver calendario <ChevronRight size={16} />
+                            </button>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {tournaments.length > 0 ? (
-                                tournaments.map((tournament, index) => (
-                                    <motion.div
-                                        key={tournament.id || `tournament-${index}`}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => navigate('/tournaments')}
-                                        style={{
-                                            display: 'flex',
-                                            gap: '16px',
-                                            alignItems: 'center',
-                                            padding: '12px',
-                                            borderRadius: '24px',
-                                            background: 'rgba(255,255,255,0.04)',
-                                            backdropFilter: 'blur(12px)',
-                                            WebkitBackdropFilter: 'blur(12px)',
-                                            border: '1px solid rgba(255,255,255,0.08)',
-                                            cursor: 'pointer',
-                                            boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
-                                        }}
-                                    >
-                                        <div style={{
-                                            width: '60px',
-                                            height: '60px',
-                                            background: 'rgba(255,255,255,0.05)',
-                                            borderRadius: '16px',
-                                            backgroundImage: tournament.image_url ? `url(${tournament.image_url})` : 'none',
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            border: '1px solid rgba(255,255,255,0.1)'
-                                        }} />
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ fontWeight: '900', fontSize: '16px', color: 'white', marginBottom: '2px', letterSpacing: '-0.3px' }}>{tournament.name}</div>
-                                            <div style={{ fontSize: '13px', color: 'var(--secondary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                                {new Date(tournament.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                            </div>
-                                        </div>
-                                        <div style={{
-                                            width: '32px',
-                                            height: '32px',
-                                            borderRadius: '50%',
-                                            background: 'rgba(255,255,255,0.05)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: 'rgba(255,255,255,0.3)'
-                                        }}>
-                                            <ChevronRight size={18} />
-                                        </div>
-                                    </motion.div>
-                                ))
-                            ) : (
-                                <div style={{
-                                    padding: '30px',
-                                    textAlign: 'center',
-                                    background: 'rgba(255,255,255,0.02)',
-                                    borderRadius: '24px',
-                                    border: '1px dashed rgba(255,255,255,0.1)'
-                                }}>
-                                    <p style={{ fontSize: '14px', color: 'var(--text-dim)', fontWeight: '500' }}>
-                                        No hay torneos programados próximamente.
-                                    </p>
-                                </div>
-                            )}
+                        <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+                            {tournaments.map((tournament, index) => (
+                                <motion.div
+                                    key={tournament.id || index}
+                                    className="amazon-card"
+                                    onClick={() => navigate('/tournaments')}
+                                    style={{ padding: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}
+                                >
+                                    <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'var(--primary-light)', backgroundImage: `url(${tournament.image_url})`, backgroundSize: 'cover' }} />
+                                    <div>
+                                        <div style={{ fontWeight: '800', color: 'white', fontSize: '16px' }}>{tournament.name}</div>
+                                        <div style={{ color: 'var(--secondary)', fontSize: '13px', marginTop: '4px' }}>{new Date(tournament.date).toLocaleDateString()}</div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
+
                 </div>
-            </div >
+            </div>
+            </div>
 
             {/* Modals moved to the end of the component to ensure top stacking */}
             <AnimatePresence>
@@ -1338,7 +1167,7 @@ const Home: React.FC = () => {
                 )}
 
             </AnimatePresence>
-        </div >
+        </>
     );
 };
 

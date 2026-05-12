@@ -18,53 +18,40 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
 
     return (
         <motion.div
-            whileHover={{ y: -6 }}
+            whileHover={{ y: -5 }}
             onClick={onClick}
+            className="amazon-card"
             style={{
-                background: 'transparent',
-                overflow: 'hidden',
-                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 cursor: 'pointer',
                 WebkitTapHighlightColor: 'transparent',
                 width: '100%',
-                minWidth: 0,
+                height: '100%',
+                minHeight: '380px',
                 boxSizing: 'border-box',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
         >
-            {/* Image Container - Sleek box for the product */}
+            {/* Image Container - Amazon style (Pure background) */}
             <div style={{
                 position: 'relative',
                 width: '100%',
-                aspectRatio: '1/1', // Uniform square container
-                borderRadius: '20px',
-                background: '#121212', // Pure deep gray
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                height: '240px',
+                background: '#FFFFFF', // Amazon-style white background for product focus
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
-                marginBottom: '12px',
                 zIndex: 1
             }}>
                 <img
                     src={optimizeImage(product.image_url, { width: 500, height: 500 })}
                     alt={product.name}
                     style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.6s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.transform = 'scale(1.05)';
-                    }}
-                    onMouseLeave={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.transform = 'scale(1)';
+                        width: '90%',
+                        height: '90%',
+                        objectFit: 'contain', // Amazon usually uses contain for products
+                        transition: 'transform 0.4s ease'
                     }}
                     onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -72,28 +59,25 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
                     }}
                 />
 
-                {/* Negociable Ribbon - Minimalist style */}
+                {/* Negociable Badge */}
                 {product.is_negotiable && (
                     <div style={{
                         position: 'absolute',
                         top: '12px',
                         left: '12px',
-                        background: 'var(--secondary)',
-                        color: 'var(--primary)',
-                        fontSize: '9px',
-                        fontWeight: '900',
-                        textTransform: 'uppercase',
+                        background: '#FFD814', // Amazon-style yellow
+                        color: '#0F1111',
+                        fontSize: '11px',
+                        fontWeight: '700',
                         padding: '4px 8px',
-                        borderRadius: '6px',
-                        letterSpacing: '0.05em',
+                        borderRadius: '4px',
                         zIndex: 10,
-                        boxShadow: '0 4px 12px rgba(163, 230, 53, 0.3)',
                     }}>
-                        Negociable
+                        OFERTA
                     </div>
                 )}
 
-                {/* Heart Icon Overlay - Clean Glassmorphism */}
+                {/* Heart Icon */}
                 <div style={{
                     position: 'absolute',
                     top: '12px',
@@ -106,79 +90,80 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
                             toggleLike(product.id);
                         }}
                         style={{
-                            width: '36px',
-                            height: '36px',
+                            width: '32px',
+                            height: '32px',
                             borderRadius: '50%',
-                            background: 'rgba(0,0,0,0.4)',
-                            backdropFilter: 'blur(8px)',
-                            WebkitBackdropFilter: 'blur(8px)',
+                            background: 'white',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            border: '1px solid rgba(255, 255, 255, 0.15)',
-                            color: isLiked ? '#ff4b4b' : 'white',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
+                            border: '1px solid #DDD',
+                            color: isLiked ? '#B12704' : '#565959',
+                            cursor: 'pointer'
                         }}
                     >
-                        <Heart size={18} fill={isLiked ? '#ff4b4b' : 'none'} strokeWidth={isLiked ? 0 : 2} />
+                        <Heart size={16} fill={isLiked ? '#B12704' : 'none'} />
                     </button>
                 </div>
             </div>
 
-            {/* Info Section - Clean Typography */}
+            {/* Info Section - Clean & Structured */}
             <div style={{
-                padding: '0 4px',
+                padding: '15px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '2px'
+                flex: 1,
+                background: 'var(--bg-card)'
             }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <span style={{
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        color: 'rgba(255,255,255,0.4)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em'
-                    }}>
-                        {product.brand || 'APEG GOLF'}
-                    </span>
-                    <span style={{
-                        fontSize: '10px',
-                        fontWeight: '600',
-                        color: 'var(--secondary)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.02em',
-                        opacity: 0.8
-                    }}>
-                        {product.category}
-                    </span>
-                </div>
+                <span style={{
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    color: 'var(--secondary)',
+                    textTransform: 'uppercase',
+                    marginBottom: '4px'
+                }}>
+                    {product.brand || 'APEG'}
+                </span>
 
                 <h3 style={{
-                    fontSize: '14px',
-                    fontWeight: '600',
-                    color: '#FFFFFF',
-                    lineHeight: '1.4',
-                    margin: '2px 0 6px 0',
+                    fontSize: '15px',
+                    fontWeight: '500',
+                    color: 'white',
+                    lineHeight: '1.3',
+                    margin: '0 0 10px 0',
                     display: '-webkit-box',
-                    WebkitLineClamp: 1,
+                    WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
-                    letterSpacing: '-0.01em'
                 }}>
                     {product.name}
                 </h3>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{
-                        fontSize: '16px',
-                        fontWeight: '800',
-                        color: '#FFFFFF',
-                        letterSpacing: '-0.02em'
+                <div style={{ marginTop: 'auto' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                        <span style={{ fontSize: '12px', color: 'white', fontWeight: '400' }}>$</span>
+                        <span style={{
+                            fontSize: '24px',
+                            fontWeight: '700',
+                            color: 'white',
+                            letterSpacing: '-0.5px'
+                        }}>
+                            {Number(product.price).toLocaleString()}
+                        </span>
+                    </div>
+                    
+                    <div style={{
+                        fontSize: '12px',
+                        color: '#A0A0A0',
+                        marginTop: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
                     }}>
-                        ${Number(product.price).toLocaleString()}
-                    </span>
+                        <span>Envío gratis</span>
+                        <span style={{ color: 'var(--secondary)', fontWeight: '700' }}>APEG Prime</span>
+                    </div>
                 </div>
             </div>
         </motion.div>
