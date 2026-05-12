@@ -122,8 +122,6 @@ const Home: React.FC = () => {
     };
 
     // Auto-scroll for featured carousel
-    // Auto-scroll removed as requested
-    /*
     useEffect(() => {
         const interval = setInterval(() => {
             if (carouselRef.current) {
@@ -141,7 +139,6 @@ const Home: React.FC = () => {
 
         return () => clearInterval(interval);
     }, []);
-    */
 
     const { data: categories = ['Todo'] } = useCategories(user?.id);
 
