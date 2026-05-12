@@ -60,7 +60,7 @@ const WebNavbar: React.FC = () => {
                 zIndex: 1000,
                 transition: 'all 0.3s ease',
                 background: scrolled
-                    ? 'rgba(6, 6, 6, 0.95)'
+                    ? 'rgba(6, 20, 13, 0.95)'
                     : 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)',
                 backdropFilter: scrolled ? 'blur(30px) saturate(180%)' : 'none',
                 WebkitBackdropFilter: scrolled ? 'blur(30px) saturate(180%)' : 'none',
