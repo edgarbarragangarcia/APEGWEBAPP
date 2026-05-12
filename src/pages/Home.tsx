@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft, ShoppingBag, MapPin, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase, optimizeImage } from '../services/SupabaseManager';
 import { useProfile } from '../hooks/useProfile';
 import { useFeaturedProducts, useUpcomingTournaments, useCategories } from '../hooks/useHomeData';
 
-import PageHeader from '../components/PageHeader';
 import { useCart } from '../context/CartContext';
-import PageHero from '../components/PageHero';
 import { useToast } from '../context/ToastContext';
 import { useInteractions } from '../hooks/useInteractions';
 import PremiumProductCard from '../components/PremiumProductCard';
@@ -19,7 +17,6 @@ const Home: React.FC = () => {
     const location = useLocation();
     const { warning } = useToast();
     const { id: productId } = useParams();
-    const { data: profile } = useProfile();
     const { data: featuredProducts = [], isLoading: featuredLoading } = useFeaturedProducts(); // No limit to fetch all
     const { data: tournaments = [] } = useUpcomingTournaments(3);
 
@@ -212,6 +209,12 @@ const Home: React.FC = () => {
 
     const isDeepLink = !!productId;
     const isWaitingForProduct = isDeepLink && !selectedProduct;
+    // ───── Card configuration parameters ─────
+    const cardConfig = {
+        height: '480px',      // Más altas
+        imageHeight: '300px', // Área de imagen más grande
+        minWidth: '190px'     // Más pequeñas (estrechas)
+    };
 
     return (
         <>
@@ -246,57 +249,42 @@ const Home: React.FC = () => {
                 }}>
 
 
-                    {/* Fixed Header: Welcome + Categories (Never moves) */}
+                    {/* Fixed Header: Categories Sub-nav (Never moves) */}
                     <div style={{
                         position: 'fixed',
-                        top: 'var(--navbar-height)',
+                        top: '100px', // New Navbar height
                         left: 0,
                         right: 0,
                         zIndex: 990,
-                        background: 'rgba(6, 20, 13, 0.85)',
-                        backdropFilter: 'blur(15px)',
-                        WebkitBackdropFilter: 'blur(15px)',
-                        padding: '15px 0 0 0',
+                        background: 'var(--primary)',
+                        padding: '5px 0',
                         borderBottom: '1px solid rgba(255,255,255,0.05)',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                     }}>
-                        <div className="main-container">
-                            <PageHeader
-                                noMargin
-                                showBack={false}
-                                title={`Hola, ${profile?.full_name?.split(' ')[0] || 'Golfista'}`}
-                                subtitle="¿Listo para tu próxima victoria en el campo?"
-                            />
-                            
+                        <div className="main-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {/* Category Tabs */}
                             <div style={{
                                 display: 'flex',
-                                gap: '10px',
+                                gap: '25px',
                                 overflowX: 'auto',
-                                padding: '15px 0 5px 0',
+                                padding: '5px 0',
                                 scrollbarWidth: 'none',
-                                justifyContent: 'center', // Alineación centrada añadida
                             }}>
                                 {categories.map((tab, idx) => (
                                     <button
                                         key={tab || `tab-${idx}`}
                                         onClick={() => {
-                                            if (tab === 'Todo') {
-                                                setActiveTab(tab);
-                                            } else {
-                                                logView('category', tab);
-                                                const route = tab.toLowerCase().replace(' ', '-');
-                                                navigate(`/category/${route}`);
-                                            }
+                                            setActiveTab(tab);
+                                            logView('category', tab);
                                         }}
                                         style={{
-                                            padding: '8px 20px',
-                                            borderRadius: '10px',
-                                            background: activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.05)',
-                                            color: activeTab === tab ? 'var(--primary)' : 'white',
+                                            padding: '8px 0',
+                                            background: 'transparent',
+                                            color: activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.7)',
                                             fontSize: '13px',
-                                            fontWeight: '700',
-                                            border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
+                                            fontWeight: activeTab === tab ? '700' : '400',
+                                            border: 'none',
+                                            borderBottom: activeTab === tab ? '2px solid var(--secondary)' : '2px solid transparent',
                                             whiteSpace: 'nowrap',
                                             cursor: 'pointer',
                                             transition: 'all 0.2s ease'
@@ -311,9 +299,51 @@ const Home: React.FC = () => {
 
 
 
-                    {/* Added 160px padding to compensate for the fixed header above */}
+                    {/* Main content area */}
                     <div className="main-container" style={{ position: 'relative', zIndex: 10, paddingTop: '160px' }}>
-                        {/* Categories was here, now moved up */}
+                        
+                        {/* Benefits Bar (ML Style) */}
+                        <div style={{ 
+                            background: 'white', 
+                            borderRadius: '8px', 
+                            padding: '20px', 
+                            marginBottom: '40px',
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                            alignItems: 'center',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                            color: '#333'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <ShoppingBag size={20} color="var(--primary)" />
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Pago seguro</div>
+                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>Con todas las tarjetas</div>
+                                </div>
+                            </div>
+                            <div style={{ width: '1px', height: '30px', background: '#eee' }} />
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <MapPin size={20} color="var(--primary)" />
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Envíos rápidos</div>
+                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>A todo el país</div>
+                                </div>
+                            </div>
+                            <div style={{ width: '1px', height: '30px', background: '#eee' }} />
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <User size={20} color="var(--primary)" />
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Compra protegida</div>
+                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>Garantía APEG</div>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Promotions Carousel */}
                         <div ref={carouselRef} style={{ marginBottom: '40px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
@@ -321,29 +351,30 @@ const Home: React.FC = () => {
                                 {promotions.map((promo, idx) => (
                                     <motion.div
                                         key={idx}
-                                        whileHover={{ y: -4 }}
+                                        whileHover={{ scale: 1.02 }}
                                         style={{
-                                            minWidth: '350px',
-                                            flex: '0 0 350px',
-                                            height: '200px',
-                                            borderRadius: '16px',
-                                            background: 'var(--bg-card)',
-                                            border: '1px solid rgba(255,255,255,0.08)',
+                                            minWidth: '320px',
+                                            height: '180px',
+                                            borderRadius: '20px',
+                                            background: promo.color,
+                                            padding: '25px',
                                             display: 'flex',
                                             flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            color: 'white',
+                                            cursor: 'pointer',
                                             position: 'relative',
                                             overflow: 'hidden',
-                                            scrollSnapAlign: 'start',
-                                            cursor: 'pointer'
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            scrollSnapAlign: 'start'
                                         }}
                                     >
-                                        <div style={{ height: '60%', width: '100%', overflow: 'hidden' }}>
-                                            <img src={promo.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
+                                        <div style={{ position: 'relative', zIndex: 2 }}>
+                                            <div style={{ fontSize: '12px', fontWeight: '900', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '8px', letterSpacing: '1px' }}>{promo.badge}</div>
+                                            <h3 style={{ fontSize: '22px', fontWeight: '900', margin: 0, lineHeight: 1.1 }}>{promo.title}</h3>
+                                            <p style={{ fontSize: '13px', opacity: 0.8, margin: '8px 0 0 0' }}>{promo.subtitle}</p>
                                         </div>
-                                        <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>{promo.badge}</div>
-                                            <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'white', margin: 0 }}>{promo.title}</h3>
-                                        </div>
+                                        <div style={{ position: 'absolute', right: '-20px', bottom: '-20px', width: '150px', height: '150px', backgroundImage: `url(${promo.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom right', opacity: 0.6 }} />
                                     </motion.div>
                                 ))}
                             </div>
@@ -354,7 +385,11 @@ const Home: React.FC = () => {
                             <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px' }}>
                                 Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
                             </h2>
-                            <div className="product-grid">
+                            <div className="product-grid" style={{ 
+                                display: 'grid', 
+                                gridTemplateColumns: `repeat(auto-fill, minmax(${cardConfig.minWidth}, 1fr))`,
+                                gap: '20px'
+                            }}>
                                 {filteredProducts.map((product, index) => (
                                     <motion.div
                                         key={product.id || `p-${index}`}
@@ -366,6 +401,8 @@ const Home: React.FC = () => {
                                             product={product}
                                             onAddToCart={addToCart}
                                             onClick={() => handleProductSelect(product)}
+                                            cardHeight={cardConfig.height}
+                                            cardImageHeight={cardConfig.imageHeight}
                                         />
                                     </motion.div>
                                 ))}

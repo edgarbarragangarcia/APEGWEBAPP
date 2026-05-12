@@ -16,18 +16,16 @@ interface PremiumProductCardProps {
 const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ 
     product, 
     onClick, 
-    cardHeight = '380px',
-    cardImageHeight = '240px'
+    cardHeight = '480px',
+    cardImageHeight = '300px'
 }) => {
     const { likedProducts, toggleLike } = useLikes();
     const isLiked = likedProducts.has(product.id);
 
-
     return (
         <motion.div
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
             onClick={onClick}
-            className="amazon-card"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -37,28 +35,33 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({
                 height: '100%',
                 minHeight: cardHeight,
                 boxSizing: 'border-box',
+                background: '#FFFFFF',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1px solid #EEEEEE',
+                transition: 'all 0.3s ease'
             }}
         >
-            {/* Image Container - Amazon style (Pure background) */}
+            {/* Image Container - ML style */}
             <div style={{
                 position: 'relative',
                 width: '100%',
                 height: cardImageHeight,
-                background: '#FFFFFF', // Amazon-style white background for product focus
+                background: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
-                zIndex: 1
+                borderBottom: '1px solid #F5F5F5',
+                padding: '10px'
             }}>
                 <img
                     src={optimizeImage(product.image_url, { width: 500, height: 500 })}
                     alt={product.name}
                     style={{
-                        width: '90%',
-                        height: '90%',
-                        objectFit: 'contain', // Amazon usually uses contain for products
-                        transition: 'transform 0.4s ease'
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        objectFit: 'contain',
                     }}
                     onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -66,29 +69,11 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({
                     }}
                 />
 
-                {/* Negociable Badge */}
-                {product.is_negotiable && (
-                    <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        left: '12px',
-                        background: '#FFD814', // Amazon-style yellow
-                        color: '#0F1111',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        zIndex: 10,
-                    }}>
-                        OFERTA
-                    </div>
-                )}
-
-                {/* Heart Icon */}
+                {/* Heart Icon (ML style subtle) */}
                 <div style={{
                     position: 'absolute',
-                    top: '12px',
-                    right: '12px',
+                    top: '10px',
+                    right: '10px',
                     zIndex: 2
                 }}>
                     <button
@@ -101,44 +86,35 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({
                             height: '32px',
                             borderRadius: '50%',
                             background: 'white',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            border: '1px solid #DDD',
-                            color: isLiked ? '#B12704' : '#565959',
+                            border: '1px solid #EEE',
+                            color: isLiked ? '#3483FA' : '#CCC', // ML Blue for like
                             cursor: 'pointer'
                         }}
                     >
-                        <Heart size={16} fill={isLiked ? '#B12704' : 'none'} />
+                        <Heart size={16} fill={isLiked ? '#3483FA' : 'none'} />
                     </button>
                 </div>
             </div>
 
-            {/* Info Section - Clean & Structured */}
+            {/* Info Section - ML style */}
             <div style={{
-                padding: '15px',
+                padding: '12px',
                 display: 'flex',
                 flexDirection: 'column',
                 flex: 1,
-                background: 'var(--bg-card)'
+                background: 'white'
             }}>
-                <span style={{
-                    fontSize: '11px',
-                    fontWeight: '700',
-                    color: 'var(--secondary)',
-                    textTransform: 'uppercase',
-                    marginBottom: '4px'
-                }}>
-                    {product.brand || 'APEG'}
-                </span>
-
+                {/* Product Name (ML style: truncated) */}
                 <h3 style={{
-                    fontSize: '15px',
-                    fontWeight: '500',
-                    color: 'white',
-                    lineHeight: '1.3',
-                    margin: '0 0 10px 0',
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    color: '#333333',
+                    lineHeight: '1.2',
+                    margin: '0 0 8px 0',
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
@@ -147,30 +123,46 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({
                     {product.name}
                 </h3>
 
-                <div style={{ marginTop: 'auto' }}>
+                <div style={{ marginTop: '4px' }}>
+                    {/* Price */}
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                        <span style={{ fontSize: '12px', color: 'white', fontWeight: '400' }}>$</span>
                         <span style={{
                             fontSize: '24px',
-                            fontWeight: '700',
-                            color: 'white',
-                            letterSpacing: '-0.5px'
+                            fontWeight: '400',
+                            color: '#333333',
                         }}>
-                            {Number(product.price).toLocaleString()}
+                            $ {Number(product.price).toLocaleString()}
                         </span>
                     </div>
                     
+                    {/* Offers / Installments */}
                     <div style={{
-                        fontSize: '12px',
-                        color: '#A0A0A0',
-                        marginTop: '4px',
+                        fontSize: '13px',
+                        color: '#333',
+                        marginTop: '4px'
+                    }}>
+                        en <span style={{ fontWeight: '500' }}>12x $ {(Number(product.price)/12).toLocaleString(undefined, {maximumFractionDigits: 0})} sin interés</span>
+                    </div>
+
+                    {/* Free Shipping (ML green) */}
+                    <div style={{
+                        fontSize: '14px',
+                        color: '#00A650', // ML Green
+                        fontWeight: '600',
+                        marginTop: '8px',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px'
                     }}>
                         <span>Envío gratis</span>
-                        <span style={{ color: 'var(--secondary)', fontWeight: '700' }}>APEG Prime</span>
+                        {product.is_negotiable && <span style={{ color: '#00A650', fontSize: '12px', fontWeight: 'bold' }}>FULL</span>}
                     </div>
+                </div>
+
+                {/* Star rating placeholder (ML style) */}
+                <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                    {[1,2,3,4,5].map(i => <div key={i} style={{ width: '10px', height: '10px', background: '#3483FA', borderRadius: '50%', opacity: 0.8 }} />)}
+                    <span style={{ fontSize: '11px', color: '#999', marginLeft: '4px' }}>124</span>
                 </div>
             </div>
         </motion.div>

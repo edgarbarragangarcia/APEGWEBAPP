@@ -15,7 +15,7 @@
 
   /* Responsive layout */
   --content-max-width: 1300px;
-  --navbar-height: 72px;
+  --navbar-height: 100px;
   --footer-height: auto;
 
   /* Legacy compat - used by some pages */
