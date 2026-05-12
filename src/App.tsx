@@ -125,8 +125,8 @@ const AppContent: React.FC = () => {
             flexDirection: 'column',
             width: '100%',
         }}>
-            {/* WebNavbar shown on ALL pages */}
-            {!isRegistrationPage && <WebNavbar />}
+            {/* WebNavbar shown on main pages, hidden on landing, auth, and registration */}
+            {!isRegistrationPage && !isAuthPage && !isLandingPage && <WebNavbar />}
 
             <main style={{
                 flex: 1,

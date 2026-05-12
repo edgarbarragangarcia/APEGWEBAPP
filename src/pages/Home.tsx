@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft, ShoppingBag, MapPin, User } from 'lucide-react';
+import { ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase, optimizeImage } from '../services/SupabaseManager';
-import { useProfile } from '../hooks/useProfile';
 import { useFeaturedProducts, useUpcomingTournaments, useCategories } from '../hooks/useHomeData';
 
 import { useCart } from '../context/CartContext';
@@ -141,12 +140,6 @@ const Home: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        // Removed buyer orders/offers fetching as it moved to Profile/MyPurchases
-    }, [user]);
-
-
-
     const { data: categories = ['Todo'] } = useCategories(user?.id);
 
     const filteredProducts = featuredProducts.filter(product => {
@@ -196,24 +189,18 @@ const Home: React.FC = () => {
             badge: "🆕 Nueva Temporada",
             title: "Guantes de Piel Natural",
             subtitle: "Siente cada golpe con precisión",
-            image: "/images/promos/clubs.png", // Reusing image for 7th
+            image: "/images/promos/clubs.png",
             color: "rgba(245, 158, 11, 0.4)"
         }
     ];
-
-
-
-
-
-
 
     const isDeepLink = !!productId;
     const isWaitingForProduct = isDeepLink && !selectedProduct;
     // ───── Card configuration parameters ─────
     const cardConfig = {
-        height: '480px',      // Más altas
-        imageHeight: '300px', // Área de imagen más grande
-        minWidth: '190px'     // Más pequeñas (estrechas)
+        height: '480px',
+        imageHeight: '300px',
+        minWidth: '190px'
     };
 
     return (
@@ -221,7 +208,7 @@ const Home: React.FC = () => {
             <div style={{
                 minHeight: '100vh',
                 width: '100%',
-                background: 'var(--primary)',
+                background: '#0A1F16',
                 paddingTop: 'var(--navbar-height)',
                 overflowX: 'hidden'
             }}>
@@ -230,7 +217,7 @@ const Home: React.FC = () => {
                         position: 'fixed',
                         inset: 0,
                         zIndex: 110000,
-                        background: 'var(--primary)',
+                        background: '#0A1F16',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -248,11 +235,10 @@ const Home: React.FC = () => {
                     width: '100%',
                 }}>
 
-
                     {/* Fixed Header: Categories Sub-nav (Never moves) */}
                     <div style={{
                         position: 'fixed',
-                        top: '100px', // New Navbar height
+                        top: '100px', 
                         left: 0,
                         right: 0,
                         zIndex: 990,
@@ -262,7 +248,6 @@ const Home: React.FC = () => {
                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                     }}>
                         <div className="main-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            {/* Category Tabs */}
                             <div style={{
                                 display: 'flex',
                                 gap: '25px',
@@ -297,136 +282,120 @@ const Home: React.FC = () => {
                         </div>
                     </div>
 
-
-
                     {/* Main content area */}
-                    <div className="main-container" style={{ position: 'relative', zIndex: 10, paddingTop: '160px' }}>
+                    <div style={{ position: 'relative', zIndex: 10, paddingTop: '60px' }}>
                         
-                        {/* Benefits Bar (ML Style) */}
-                        <div style={{ 
-                            background: 'white', 
-                            borderRadius: '8px', 
-                            padding: '20px', 
-                            marginBottom: '40px',
-                            display: 'flex',
-                            justifyContent: 'space-around',
-                            alignItems: 'center',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                            color: '#333'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <ShoppingBag size={20} color="var(--primary)" />
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Pago seguro</div>
-                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>Con todas las tarjetas</div>
-                                </div>
-                            </div>
-                            <div style={{ width: '1px', height: '30px', background: '#eee' }} />
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <MapPin size={20} color="var(--primary)" />
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Envíos rápidos</div>
-                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>A todo el país</div>
-                                </div>
-                            </div>
-                            <div style={{ width: '1px', height: '30px', background: '#eee' }} />
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <User size={20} color="var(--primary)" />
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '14px', fontWeight: 'bold' }}>Compra protegida</div>
-                                    <div style={{ fontSize: '12px', opacity: 0.7 }}>Garantía APEG</div>
+                        {/* Promotions Carousel - FULL WIDTH */}
+                        <div style={{ position: 'relative', marginBottom: '60px', width: '100%' }}>
+                            {/* Left Blur */}
+                            <div style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                width: '100px',
+                                background: 'linear-gradient(to right, #0A1F16, transparent)',
+                                zIndex: 5,
+                                pointerEvents: 'none'
+                            }} />
+
+                            {/* Right Blur */}
+                            <div style={{
+                                position: 'absolute',
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                width: '100px',
+                                background: 'linear-gradient(to left, #0A1F16, transparent)',
+                                zIndex: 5,
+                                pointerEvents: 'none'
+                            }} />
+
+                            <div ref={carouselRef} style={{ overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
+                                <div style={{ display: 'flex', gap: '20px', padding: '0 40px' }}>
+                                    {promotions.map((promo, idx) => (
+                                        <motion.div
+                                            key={idx}
+                                            whileHover={{ scale: 1.02 }}
+                                            style={{
+                                                minWidth: '400px',
+                                                height: '220px',
+                                                borderRadius: '24px',
+                                                background: promo.color,
+                                                padding: '30px',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                color: 'white',
+                                                cursor: 'pointer',
+                                                position: 'relative',
+                                                overflow: 'hidden',
+                                                border: '1px solid rgba(255,255,255,0.1)',
+                                                scrollSnapAlign: 'center'
+                                            }}
+                                        >
+                                            <div style={{ position: 'relative', zIndex: 2 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '10px', letterSpacing: '1px' }}>{promo.badge}</div>
+                                                <h3 style={{ fontSize: '26px', fontWeight: '900', margin: 0, lineHeight: 1.1 }}>{promo.title}</h3>
+                                                <p style={{ fontSize: '14px', opacity: 0.8, margin: '10px 0 0 0' }}>{promo.subtitle}</p>
+                                            </div>
+                                            <div style={{ position: 'absolute', right: '-10px', bottom: '-10px', width: '180px', height: '180px', backgroundImage: `url(${promo.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom right', opacity: 0.6 }} />
+                                        </motion.div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Promotions Carousel */}
-                        <div ref={carouselRef} style={{ marginBottom: '40px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
-                            <div style={{ display: 'flex', gap: '20px' }}>
-                                {promotions.map((promo, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        whileHover={{ scale: 1.02 }}
-                                        style={{
-                                            minWidth: '320px',
-                                            height: '180px',
-                                            borderRadius: '20px',
-                                            background: promo.color,
-                                            padding: '25px',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'center',
-                                            color: 'white',
-                                            cursor: 'pointer',
-                                            position: 'relative',
-                                            overflow: 'hidden',
-                                            border: '1px solid rgba(255,255,255,0.1)',
-                                            scrollSnapAlign: 'start'
-                                        }}
-                                    >
-                                        <div style={{ position: 'relative', zIndex: 2 }}>
-                                            <div style={{ fontSize: '12px', fontWeight: '900', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '8px', letterSpacing: '1px' }}>{promo.badge}</div>
-                                            <h3 style={{ fontSize: '22px', fontWeight: '900', margin: 0, lineHeight: 1.1 }}>{promo.title}</h3>
-                                            <p style={{ fontSize: '13px', opacity: 0.8, margin: '8px 0 0 0' }}>{promo.subtitle}</p>
+                        {/* Standard Grid in main-container */}
+                        <div className="main-container">
+                            {/* Products Grid */}
+                            <div style={{ marginBottom: '60px' }}>
+                                <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px' }}>
+                                    Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
+                                </h2>
+                                <div className="product-grid" style={{ 
+                                    display: 'grid', 
+                                    gridTemplateColumns: `repeat(auto-fill, minmax(${cardConfig.minWidth}, 1fr))`,
+                                    gap: '20px'
+                                }}>
+                                    {filteredProducts.map((product, index) => (
+                                        <motion.div
+                                            key={product.id || `p-${index}`}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                        >
+                                            <PremiumProductCard
+                                                product={product}
+                                                onAddToCart={addToCart}
+                                                onClick={() => handleProductSelect(product)}
+                                                cardHeight={cardConfig.height}
+                                                cardImageHeight={cardConfig.imageHeight}
+                                            />
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Tournaments */}
+                            <div style={{ paddingBottom: '80px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                    <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>Próximos Torneos</h3>
+                                    <button onClick={() => navigate('/tournaments')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: '700', cursor: 'pointer' }}>
+                                        Ver calendario <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                                <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+                                    {tournaments.map((tournament, index) => (
+                                        <div key={tournament.id || index} className="amazon-card" onClick={() => navigate('/tournaments')} style={{ padding: '20px', display: 'flex', gap: '15px', alignItems: 'center', cursor: 'pointer' }}>
+                                            <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'var(--primary-light)', backgroundImage: `url(${tournament.image_url})`, backgroundSize: 'cover' }} />
+                                            <div>
+                                                <div style={{ fontWeight: '800', color: 'white', fontSize: '16px' }}>{tournament.name}</div>
+                                                <div style={{ color: 'var(--secondary)', fontSize: '13px', marginTop: '4px' }}>{new Date(tournament.date).toLocaleDateString()}</div>
+                                            </div>
                                         </div>
-                                        <div style={{ position: 'absolute', right: '-20px', bottom: '-20px', width: '150px', height: '150px', backgroundImage: `url(${promo.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom right', opacity: 0.6 }} />
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Products Grid */}
-                        <div style={{ marginBottom: '60px' }}>
-                            <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px' }}>
-                                Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
-                            </h2>
-                            <div className="product-grid" style={{ 
-                                display: 'grid', 
-                                gridTemplateColumns: `repeat(auto-fill, minmax(${cardConfig.minWidth}, 1fr))`,
-                                gap: '20px'
-                            }}>
-                                {filteredProducts.map((product, index) => (
-                                    <motion.div
-                                        key={product.id || `p-${index}`}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                    >
-                                        <PremiumProductCard
-                                            product={product}
-                                            onAddToCart={addToCart}
-                                            onClick={() => handleProductSelect(product)}
-                                            cardHeight={cardConfig.height}
-                                            cardImageHeight={cardConfig.imageHeight}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Tournaments */}
-                        <div style={{ paddingBottom: '80px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                                <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>Próximos Torneos</h3>
-                                <button onClick={() => navigate('/tournaments')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: '700', cursor: 'pointer' }}>
-                                    Ver calendario <ChevronRight size={16} />
-                                </button>
-                            </div>
-                            <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
-                                {tournaments.map((tournament, index) => (
-                                    <div key={tournament.id || index} className="amazon-card" onClick={() => navigate('/tournaments')} style={{ padding: '20px', display: 'flex', gap: '15px', alignItems: 'center', cursor: 'pointer' }}>
-                                        <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'var(--primary-light)', backgroundImage: `url(${tournament.image_url})`, backgroundSize: 'cover' }} />
-                                        <div>
-                                            <div style={{ fontWeight: '800', color: 'white', fontSize: '16px' }}>{tournament.name}</div>
-                                            <div style={{ color: 'var(--secondary)', fontSize: '13px', marginTop: '4px' }}>{new Date(tournament.date).toLocaleDateString()}</div>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>

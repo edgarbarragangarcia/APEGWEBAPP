@@ -60,6 +60,63 @@ const LandingPage: React.FC = () => {
 
     return (
         <div style={{ background: 'var(--primary)', minHeight: '100vh', overflow: 'hidden' }}>
+            {/* Simple Landing Header */}
+            <header style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '80px',
+                zIndex: 1000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0 40px',
+                background: 'rgba(6, 20, 13, 0.4)',
+                backdropFilter: 'blur(10px)',
+                borderBottom: '1px solid rgba(255,255,255,0.05)'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '10px',
+                        background: 'var(--secondary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: '900',
+                        color: 'var(--primary)',
+                        fontSize: '18px'
+                    }}>AG</div>
+                    <span style={{ fontSize: '22px', fontWeight: '900', color: 'white', letterSpacing: '1px' }}>APEG</span>
+                </div>
+
+                <button
+                    onClick={() => navigate('/auth')}
+                    style={{
+                        padding: '10px 24px',
+                        borderRadius: '12px',
+                        background: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white',
+                        fontWeight: '700',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                        e.currentTarget.style.borderColor = 'var(--secondary)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                    }}
+                >
+                    Ingresar
+                </button>
+            </header>
 
             {/* ═══════ HERO SECTION ═══════ */}
             <section style={{
