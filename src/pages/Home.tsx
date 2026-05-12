@@ -122,11 +122,13 @@ const Home: React.FC = () => {
     };
 
     // Auto-scroll for featured carousel
+    // Auto-scroll removed as requested
+    /*
     useEffect(() => {
         const interval = setInterval(() => {
             if (carouselRef.current) {
                 const container = carouselRef.current;
-                const scrollAmount = container.clientWidth * 0.8; // Move 80% of width
+                const scrollAmount = container.clientWidth * 0.8;
                 const maxScroll = container.scrollWidth - container.clientWidth;
 
                 if (container.scrollLeft >= maxScroll - 10) {
@@ -135,10 +137,11 @@ const Home: React.FC = () => {
                     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
                 }
             }
-        }, 4000); // Every 4 seconds
+        }, 4000);
 
         return () => clearInterval(interval);
     }, []);
+    */
 
     const { data: categories = ['Todo'] } = useCategories(user?.id);
 
@@ -238,10 +241,10 @@ const Home: React.FC = () => {
                     {/* Fixed Header: Categories Sub-nav (Never moves) */}
                     <div style={{
                         position: 'fixed',
-                        top: '100px', 
+                        top: '260px', // NavBar (100px) + Carousel (160px)
                         left: 0,
                         right: 0,
-                        zIndex: 990,
+                        zIndex: 995, // Higher than carousel to keep active tab visible
                         background: 'var(--primary)',
                         padding: '5px 0',
                         borderBottom: '1px solid rgba(255,255,255,0.05)',
@@ -283,10 +286,18 @@ const Home: React.FC = () => {
                     </div>
 
                     {/* Main content area */}
-                    <div style={{ position: 'relative', zIndex: 10, paddingTop: '60px' }}>
+                    <div style={{ position: 'relative', zIndex: 10, paddingTop: '310px' }}>
                         
-                        {/* Promotions Carousel - FULL WIDTH */}
-                        <div style={{ position: 'relative', marginBottom: '60px', width: '100%' }}>
+                        {/* Promotions Carousel - FULL WIDTH & FIXED */}
+                        <div style={{ 
+                            position: 'fixed', 
+                            top: '100px', // Immediately below NavBar
+                            left: 0,
+                            right: 0,
+                            zIndex: 900,
+                            background: '#0A1F16',
+                            paddingBottom: '0px',
+                        }}>
                             {/* Left Blur */}
                             <div style={{
                                 position: 'absolute',
@@ -318,11 +329,11 @@ const Home: React.FC = () => {
                                             key={idx}
                                             whileHover={{ scale: 1.02 }}
                                             style={{
-                                                minWidth: '400px',
-                                                height: '220px',
+                                                minWidth: '380px',
+                                                height: '160px',
                                                 borderRadius: '24px',
                                                 background: promo.color,
-                                                padding: '30px',
+                                                padding: '20px 30px',
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 justifyContent: 'center',
@@ -339,7 +350,7 @@ const Home: React.FC = () => {
                                                 <h3 style={{ fontSize: '26px', fontWeight: '900', margin: 0, lineHeight: 1.1 }}>{promo.title}</h3>
                                                 <p style={{ fontSize: '14px', opacity: 0.8, margin: '10px 0 0 0' }}>{promo.subtitle}</p>
                                             </div>
-                                            <div style={{ position: 'absolute', right: '-10px', bottom: '-10px', width: '180px', height: '180px', backgroundImage: `url(${promo.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom right', opacity: 0.6 }} />
+                                            <div style={{ position: 'absolute', right: '-10px', bottom: '-10px', width: '150px', height: '150px', backgroundImage: `url(${promo.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom right', opacity: 0.6 }} />
                                         </motion.div>
                                     ))}
                                 </div>

@@ -13,9 +13,10 @@ const Section: React.FC<{ children: React.ReactNode; style?: React.CSSProperties
         offset: ["start end", "end start"]
     });
 
-    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
-    const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-    const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1, 0.5]);
+    const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [20, 0, -20]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const y = useTransform(scrollYProgress, [0, 1], [250, -250]);
 
     return (
         <motion.section
@@ -24,9 +25,11 @@ const Section: React.FC<{ children: React.ReactNode; style?: React.CSSProperties
             style={{
                 ...style,
                 scale,
+                rotateX,
                 opacity,
                 y,
                 position: 'relative',
+                perspective: '1000px',
                 willChange: 'transform, opacity'
             }}
         >
