@@ -9,9 +9,16 @@ interface PremiumProductCardProps {
     product: any;
     onAddToCart?: (product: any) => void;
     onClick: () => void;
+    cardHeight?: string;
+    cardImageHeight?: string;
 }
 
-const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClick }) => {
+const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ 
+    product, 
+    onClick, 
+    cardHeight = '380px',
+    cardImageHeight = '240px'
+}) => {
     const { likedProducts, toggleLike } = useLikes();
     const isLiked = likedProducts.has(product.id);
 
@@ -28,7 +35,7 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
                 WebkitTapHighlightColor: 'transparent',
                 width: '100%',
                 height: '100%',
-                minHeight: '380px',
+                minHeight: cardHeight,
                 boxSizing: 'border-box',
             }}
         >
@@ -36,7 +43,7 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
             <div style={{
                 position: 'relative',
                 width: '100%',
-                height: '240px',
+                height: cardImageHeight,
                 background: '#FFFFFF', // Amazon-style white background for product focus
                 display: 'flex',
                 alignItems: 'center',

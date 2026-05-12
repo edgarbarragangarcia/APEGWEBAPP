@@ -275,6 +275,7 @@ const Home: React.FC = () => {
                                 overflowX: 'auto',
                                 padding: '15px 0 5px 0',
                                 scrollbarWidth: 'none',
+                                justifyContent: 'center', // Alineación centrada añadida
                             }}>
                                 {categories.map((tab, idx) => (
                                     <button
