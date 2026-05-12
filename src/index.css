@@ -40,7 +40,6 @@ body {
   background-color: var(--primary);
   color: var(--text-main);
   line-height: 1.6;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
   width: 100%;
@@ -69,7 +68,6 @@ textarea,
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
   width: 100%;
 }
 

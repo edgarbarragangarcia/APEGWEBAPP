@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Heart, ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft, DollarSign, Handshake } from 'lucide-react';
+import { ChevronRight, ShoppingCart, Loader2, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase, optimizeImage } from '../services/SupabaseManager';
 import { useProfile } from '../hooks/useProfile';
 import { useFeaturedProducts, useUpcomingTournaments, useCategories } from '../hooks/useHomeData';
-import { useLikes } from '../hooks/useLikes';
+
 import PageHeader from '../components/PageHeader';
 import { useCart } from '../context/CartContext';
 import PageHero from '../components/PageHero';
@@ -32,10 +32,6 @@ const Home: React.FC = () => {
     const [offerAmount, setOfferAmount] = React.useState('');
     const [sendingOffer, setSendingOffer] = React.useState(false);
     const [offerSuccess, setOfferSuccess] = React.useState(false);
-    const [addingToCart, setAddingToCart] = React.useState<string | null>(null);
-    const [buying, setBuying] = React.useState(false);
-    const [selectedSize, setSelectedSize] = React.useState<string | null>(null);
-    const { likedProducts, toggleLike } = useLikes();
     const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
 
     // Interaction Tracking
@@ -121,7 +117,6 @@ const Home: React.FC = () => {
 
     const handleProductSelect = (product: any) => {
         setSelectedProduct(product);
-        setSelectedSize(null);
         navigate(`/product/${product.id}`, { replace: false });
     };
 
@@ -220,7 +215,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <div className="animate-fade" style={{
+            <div style={{
                 minHeight: '100vh',
                 width: '100%',
                 background: 'var(--primary)',
@@ -249,25 +244,21 @@ const Home: React.FC = () => {
                     transition: 'opacity 0.3s ease',
                     width: '100%',
                 }}>
-                    {/* Hero Section - The background banner */}
-                    <div style={{ position: 'relative', height: '220px', width: '100%', overflow: 'hidden' }}>
-                        <PageHero />
-                        <div style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background: 'linear-gradient(to bottom, transparent 0%, var(--primary) 100%)',
-                            zIndex: 1
-                        }} />
-                    </div>
 
-                    {/* Sticky Welcome Header */}
+
+                    {/* Fixed Header: Welcome + Categories (Never moves) */}
                     <div style={{
-                        position: 'sticky',
+                        position: 'fixed',
                         top: 'var(--navbar-height)',
-                        zIndex: 100,
-                        background: 'var(--primary)',
-                        padding: '20px 0',
-                        marginTop: '-60px',
+                        left: 0,
+                        right: 0,
+                        zIndex: 990,
+                        background: 'rgba(6, 20, 13, 0.85)',
+                        backdropFilter: 'blur(15px)',
+                        WebkitBackdropFilter: 'blur(15px)',
+                        padding: '15px 0 0 0',
+                        borderBottom: '1px solid rgba(255,255,255,0.05)',
+                        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
                     }}>
                         <div className="main-container">
                             <PageHeader
@@ -276,46 +267,52 @@ const Home: React.FC = () => {
                                 title={`Hola, ${profile?.full_name?.split(' ')[0] || 'Golfista'}`}
                                 subtitle="¿Listo para tu próxima victoria en el campo?"
                             />
+                            
+                            {/* Category Tabs */}
+                            <div style={{
+                                display: 'flex',
+                                gap: '10px',
+                                overflowX: 'auto',
+                                padding: '15px 0 5px 0',
+                                scrollbarWidth: 'none',
+                            }}>
+                                {categories.map((tab, idx) => (
+                                    <button
+                                        key={tab || `tab-${idx}`}
+                                        onClick={() => {
+                                            if (tab === 'Todo') {
+                                                setActiveTab(tab);
+                                            } else {
+                                                logView('category', tab);
+                                                const route = tab.toLowerCase().replace(' ', '-');
+                                                navigate(`/category/${route}`);
+                                            }
+                                        }}
+                                        style={{
+                                            padding: '8px 20px',
+                                            borderRadius: '10px',
+                                            background: activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.05)',
+                                            color: activeTab === tab ? 'var(--primary)' : 'white',
+                                            fontSize: '13px',
+                                            fontWeight: '700',
+                                            border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
+                                            whiteSpace: 'nowrap',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease'
+                                        }}
+                                    >
+                                        {tab}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="main-container" style={{ position: 'relative', zIndex: 10 }}>
-                        {/* Category Tabs */}
-                        <div style={{
-                            display: 'flex',
-                            gap: '10px',
-                            overflowX: 'auto',
-                            padding: '10px 0 20px 0',
-                            scrollbarWidth: 'none',
-                        }}>
-                            {categories.map((tab, idx) => (
-                                <button
-                                    key={tab || `tab-${idx}`}
-                                    onClick={() => {
-                                        if (tab === 'Todo') {
-                                            setActiveTab(tab);
-                                        } else {
-                                            logView('category', tab);
-                                            const route = tab.toLowerCase().replace(' ', '-');
-                                            navigate(`/category/${route}`);
-                                        }
-                                    }}
-                                    style={{
-                                        padding: '10px 22px',
-                                        borderRadius: '12px',
-                                        background: activeTab === tab ? 'var(--secondary)' : 'var(--bg-card)',
-                                        color: activeTab === tab ? 'var(--primary)' : 'white',
-                                        fontSize: '14px',
-                                        fontWeight: '700',
-                                        border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
-                                        whiteSpace: 'nowrap',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    {tab}
-                                </button>
-                            ))}
-                        </div>
+
+
+                    {/* Added 160px padding to compensate for the fixed header above */}
+                    <div className="main-container" style={{ position: 'relative', zIndex: 10, paddingTop: '160px' }}>
+                        {/* Categories was here, now moved up */}
 
                         {/* Promotions Carousel */}
                         <div ref={carouselRef} style={{ marginBottom: '40px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
@@ -505,7 +502,7 @@ const Home: React.FC = () => {
                                         <button disabled={sendingOffer || !offerAmount} onClick={async () => {
                                             setSendingOffer(true);
                                             try {
-                                                const { data: insertedOffer, error } = await supabase.from('offers').insert([{ product_id: selectedProduct.id, buyer_id: user?.id, seller_id: selectedProduct.seller_id, offer_amount: parseFloat(offerAmount), status: 'pending' }]).select().single();
+                                                const { error } = await supabase.from('offers').insert([{ product_id: selectedProduct.id, buyer_id: user?.id, seller_id: selectedProduct.seller_id, offer_amount: parseFloat(offerAmount), status: 'pending' }]).select().single();
                                                 if (error) throw error;
                                                 setOfferSuccess(true);
                                                 setTimeout(() => { setOfferSuccess(false); setShowOfferModal(false); setSelectedProduct(null); navigate('/', { replace: true }); }, 2000);

@@ -31,14 +31,12 @@ const WebNavbar: React.FC = () => {
     }, [location.pathname]);
 
     const publicLinks = [
-        { label: 'Inicio', path: '/' },
         { label: 'Marketplace', path: '/marketplace' },
         { label: 'Torneos', path: '/tournaments' },
         { label: 'Comunidad', path: '/community' },
     ];
 
     const authLinks = [
-        { label: 'Inicio', path: '/dashboard' },
         { label: 'Marketplace', path: '/marketplace' },
         { label: 'Torneos', path: '/tournaments' },
         { label: 'Comunidad', path: '/community' },

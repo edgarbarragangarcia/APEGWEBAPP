@@ -130,7 +130,7 @@ const AppContent: React.FC = () => {
 
             <main style={{
                 flex: 1,
-                paddingTop: (isLandingPage || isAuthPage) ? '0' : 'var(--navbar-height)',
+                paddingTop: '0', // Removido el padding de 72px por petición
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
