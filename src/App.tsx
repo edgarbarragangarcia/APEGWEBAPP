@@ -112,7 +112,7 @@ const AppContent: React.FC = () => {
     }
 
     // Determine page context
-    const isLandingPage = location.pathname === '/' && !session;
+    const isLandingPage = (location.pathname === '/' || location.pathname === '/marketplace') && !session;
     const isAuthPage = location.pathname === '/auth';
     const isRegistrationPage = location.pathname.startsWith('/tournament-register/');
     const isPublicPage = isLandingPage || isAuthPage || isRegistrationPage;
