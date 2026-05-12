@@ -19,11 +19,12 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
     return (
         <motion.div
             whileTap={{ scale: 0.98 }}
+            whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(0,0,0,0.3)' }}
             onClick={onClick}
             style={{
                 background: 'rgba(255, 255, 255, 0.03)',
-                borderRadius: '32px',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
                 overflow: 'hidden',
                 position: 'relative',
                 display: 'flex',
@@ -33,7 +34,8 @@ const PremiumProductCard: React.FC<PremiumProductCardProps> = ({ product, onClic
                 height: '100%',
                 width: '100%',
                 minWidth: 0,
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                transition: 'all 0.3s ease',
             }}
         >
             {/* Image Container - Fixed height for uniformity */}

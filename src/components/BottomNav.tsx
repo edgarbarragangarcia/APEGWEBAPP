@@ -8,7 +8,7 @@ const BottomNav: React.FC = () => {
 
     // Explicitly define the type for icon
     const navItems = [
-        { path: '/', icon: Home, label: 'Inicio' },
+        { path: '/dashboard', icon: Home, label: 'Inicio' },
         { path: '/play-mode', icon: PlayCircle, label: 'Jugar' },
         // { path: '/green-fee', icon: Ticket, label: 'Green Fee' },
         { path: '/tournaments', icon: Calendar, label: 'Eventos' },
@@ -26,7 +26,7 @@ const BottomNav: React.FC = () => {
                 left: 0,
                 right: 0,
                 width: '100%',
-                maxWidth: 'var(--app-max-width)',
+                maxWidth: '100%',
                 margin: '0 auto',
                 height: 'calc(65px + var(--safe-bottom, env(safe-area-inset-bottom)))',
                 display: 'flex',

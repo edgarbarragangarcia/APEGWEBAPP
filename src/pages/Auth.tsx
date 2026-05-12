@@ -119,407 +119,390 @@ const Auth: React.FC = () => {
         <div style={{
             minHeight: '100dvh',
             width: '100%',
-            position: 'relative',
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px 0',
             fontFamily: '"Outfit", sans-serif',
-            overflow: 'hidden',
-            background: '#06120c'
+            background: 'var(--primary)',
+            overflow: 'hidden'
         }}>
-            {/* Animated Background Blobs */}
-            <motion.div
-                animate={{
-                    x: [-100, 100, -100],
-                    y: [-50, 80, -50],
-                    scale: [1, 1.3, 1],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                style={{
-                    position: 'absolute',
-                    top: '-10%',
-                    right: '-10%',
-                    width: '400px',
-                    height: '400px',
-                    background: 'radial-gradient(circle, rgba(163, 230, 53, 0.1) 0%, transparent 70%)',
-                    zIndex: 0,
-                    pointerEvents: 'none',
-                    filter: 'blur(50px)'
-                }}
-            />
-
-            <motion.div
-                animate={{
-                    x: [80, -80, 80],
-                    y: [100, -50, 100],
-                    scale: [1.3, 1, 1.3],
-                }}
-                transition={{
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                style={{
-                    position: 'absolute',
-                    bottom: '-15%',
-                    left: '-10%',
-                    width: '500px',
-                    height: '500px',
-                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)',
-                    zIndex: 0,
-                    pointerEvents: 'none',
-                    filter: 'blur(60px)'
-                }}
-            />
-
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                style={{
-                    width: '92%',
-                    maxWidth: 'var(--app-max-width)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    zIndex: 10
-                }}
-            >
-                {/* Glass Card Container */}
+            {/* Left Side - Image/Branding (Hidden on mobile) */}
+            <div className="hide-mobile" style={{
+                flex: 1,
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '40px',
+                overflow: 'hidden'
+            }}>
+                <img
+                    src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1200"
+                    alt="Golf background"
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        opacity: 0.4
+                    }}
+                />
                 <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '24px',
-                    padding: '18px',
-                    width: '100%',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-                }}>
-
-                    {/* App Description */}
-                    <div style={{ textAlign: 'center', marginBottom: '24px', marginTop: '10px' }}>
-                        <h2 style={{
-                            fontSize: '22px',
-                            fontWeight: '800',
-                            background: 'linear-gradient(135deg, #fff 0%, #ccc 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            marginBottom: '8px',
-                            letterSpacing: '0.5px'
-                        }}>APEG GOLF</h2>
-
-                        <p style={{
-                            fontSize: '13px',
-                            color: 'rgba(255,255,255,0.8)',
-                            maxWidth: '280px',
-                            margin: '0 auto 16px auto',
-                            lineHeight: '1.5',
-                            fontWeight: '400'
-                        }}>
-                            La plataforma definitiva para gestionar tu vida como golfista profesional y amateur.
-                        </p>
-
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to right, rgba(14, 47, 31, 0.9) 0%, rgba(14, 47, 31, 0.6) 100%)'
+                }} />
+                
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    style={{ position: 'relative', zIndex: 10, maxWidth: '500px' }}
+                >
+                    <div style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        background: 'white',
+                        padding: '3px',
+                        border: '3px solid var(--secondary)',
+                        boxShadow: '0 0 20px rgba(163, 230, 53, 0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '32px',
+                    }}>
                         <div style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: 'var(--primary)',
                             display: 'flex',
+                            alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '8px',
-                            flexWrap: 'wrap',
-                            marginBottom: '4px'
-                        }}>
-                            {features.map((item, i) => (
-                                <div key={i} style={{
+                            fontSize: '22px',
+                            fontWeight: 900,
+                            color: 'var(--secondary)',
+                        }}>AG</div>
+                    </div>
+                    <h1 style={{
+                        fontSize: '48px',
+                        fontWeight: 900,
+                        color: 'white',
+                        lineHeight: 1.1,
+                        marginBottom: '20px',
+                        letterSpacing: '-1px'
+                    }}>
+                        Amor Por El <span className="gradient-text">Golf</span>
+                    </h1>
+                    <p style={{
+                        fontSize: '18px',
+                        color: 'rgba(255,255,255,0.8)',
+                        lineHeight: 1.6,
+                        marginBottom: '40px'
+                    }}>
+                        Únete a la comunidad de golfistas más activa. Marketplace premium, torneos locales y tracking de hándicap.
+                    </p>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        {features.map((item, i) => (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(163, 230, 53, 0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '6px',
-                                    padding: '6px 12px',
-                                    background: 'rgba(163, 230, 53, 0.08)',
-                                    border: '1px solid rgba(163, 230, 53, 0.15)',
-                                    borderRadius: '16px',
-                                    transition: 'all 0.2s ease'
+                                    justifyContent: 'center'
                                 }}>
-                                    <item.icon size={12} color="#A3E635" strokeWidth={2.5} />
-                                    <span style={{
-                                        fontSize: '11px',
-                                        fontWeight: '600',
-                                        color: '#A3E635',
-                                        letterSpacing: '0.3px'
-                                    }}>
-                                        {item.label}
-                                    </span>
+                                    <item.icon size={20} color="var(--secondary)" />
                                 </div>
-                            ))}
+                                <span style={{ color: 'white', fontWeight: 600 }}>{item.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* Right Side - Auth Form */}
+            <div style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '40px 20px',
+                position: 'relative',
+                background: 'rgba(10, 10, 10, 0.4)',
+                backdropFilter: 'blur(20px)'
+            }}>
+                {/* Mobile Animated Background Blobs */}
+                <div className="hide-desktop">
+                    <motion.div
+                        animate={{ x: [-50, 50, -50], y: [-20, 40, -20] }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                        style={{
+                            position: 'absolute',
+                            top: '10%',
+                            right: '-10%',
+                            width: '300px',
+                            height: '300px',
+                            background: 'radial-gradient(circle, rgba(163, 230, 53, 0.08) 0%, transparent 70%)',
+                            filter: 'blur(40px)',
+                            zIndex: -1,
+                        }}
+                    />
+                </div>
+
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{
+                        width: '100%',
+                        maxWidth: '400px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    {/* Mobile Logo */}
+                    <div className="hide-desktop" style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+                        <div style={{
+                            width: '56px',
+                            height: '56px',
+                            borderRadius: '50%',
+                            background: 'white',
+                            padding: '2px',
+                            border: '2px solid var(--secondary)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 900, color: 'var(--secondary)' }}>AG</div>
                         </div>
                     </div>
-                    <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-                        <h1 style={{
-                            color: 'white',
-                            fontSize: '20px',
-                            fontWeight: '700',
-                            letterSpacing: '-0.5px',
-                            marginBottom: '2px'
-                        }}>
-                            {isLogin ? 'Bienvenido de nuevo' : 'Crea tu perfil'}
-                        </h1>
-                        <p style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
-                            {isLogin ? 'Accede a tu cuenta de golf' : 'Forma parte de la comunidad apeg'}
+
+                    <div style={{ marginBottom: '32px' }}>
+                        <h2 style={{ fontSize: '28px', fontWeight: 800, color: 'white', marginBottom: '8px', letterSpacing: '-0.5px' }}>
+                            {isLogin ? 'Bienvenido de nuevo' : 'Crea tu cuenta'}
+                        </h2>
+                        <p style={{ color: 'var(--text-dim)', fontSize: '15px' }}>
+                            {isLogin ? 'Ingresa tus datos para continuar' : 'Únete a la plataforma definitiva de golf'}
                         </p>
                     </div>
 
-                    {/* Form Container */}
-                    <div style={{ minHeight: isLogin ? '200px' : '320px', display: 'flex', flexDirection: 'column', transition: 'min-height 0.3s ease' }}>
-                        <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
-                            <AnimatePresence mode="popLayout">
-                                {!isLogin && (
-                                    <motion.div
-                                        key="register-fields"
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        transition={{ duration: 0.2 }}
-                                        style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-                                    >
-                                        <div style={{ position: 'relative' }}>
-                                            <User size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                            <input
-                                                id="full-name"
-                                                name="name"
-                                                autoComplete="name"
-                                                type="text"
-                                                placeholder="Nombre Completo"
-                                                required={!isLogin}
-                                                value={formData.fullName}
-                                                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                                style={inputStyle}
-                                                onFocus={handleFocus}
-                                                onBlur={handleBlur}
-                                            />
-                                        </div>
-
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                            <div style={{ position: 'relative' }}>
-                                                <Award size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                                <input
-                                                    id="handicap"
-                                                    name="handicap"
-                                                    type="number"
-                                                    placeholder="Hándicap"
-                                                    required={!isLogin}
-                                                    value={formData.handicap}
-                                                    onChange={(e) => setFormData({ ...formData, handicap: e.target.value })}
-                                                    style={inputStyle}
-                                                    onFocus={handleFocus}
-                                                    onBlur={handleBlur}
-                                                />
-                                            </div>
-                                            <div style={{ position: 'relative' }}>
-                                                <Hash size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Código Fed."
-                                                    required={!isLogin}
-                                                    value={formData.federationCode}
-                                                    onChange={(e) => setFormData({ ...formData, federationCode: e.target.value })}
-                                                    style={inputStyle}
-                                                    onFocus={handleFocus}
-                                                    onBlur={handleBlur}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div style={{ position: 'relative' }}>
-                                            <Phone size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                            <input
-                                                id="phone"
-                                                name="tel"
-                                                autoComplete="tel"
-                                                type="tel"
-                                                placeholder="Teléfono Celular"
-                                                required={!isLogin}
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                style={inputStyle}
-                                                onFocus={handleFocus}
-                                                onBlur={handleBlur}
-                                            />
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            <div style={{ position: 'relative' }}>
-                                <Mail size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                <input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    autoComplete="username"
-                                    placeholder="Correo Electrónico"
-                                    required
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    style={inputStyle}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                />
-                            </div>
-
-                            <div style={{ position: 'relative' }}>
-                                <Lock size={16} color="rgba(255,255,255,0.6)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                                <input
-                                    id="password"
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    autoComplete={isLogin ? "current-password" : "new-password"}
-                                    placeholder="Contraseña"
-                                    required
-                                    value={formData.password}
-                                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    style={inputStyle}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    style={{
-                                        position: 'absolute',
-                                        right: '12px',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        background: 'none',
-                                        border: 'none',
-                                        color: 'rgba(255,255,255,0.4)',
-                                        cursor: 'pointer',
-                                        padding: '4px',
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                                </button>
-                            </div>
-
-                            {error && (
+                    <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <AnimatePresence mode="popLayout">
+                            {!isLogin && (
                                 <motion.div
+                                    key="register-fields"
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
-                                    style={{
-                                        fontSize: '11px',
-                                        color: error.includes('exitoso') ? '#4ade80' : '#f87171',
-                                        textAlign: 'center',
-                                        background: 'rgba(0,0,0,0.2)',
-                                        padding: '5px',
-                                        borderRadius: '8px'
-                                    }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflow: 'hidden' }}
                                 >
-                                    {error}
+                                    <div style={{ position: 'relative' }}>
+                                        <User size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                                        <input
+                                            id="full-name"
+                                            type="text"
+                                            placeholder="Nombre Completo"
+                                            required={!isLogin}
+                                            value={formData.fullName}
+                                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                                            style={inputStyle}
+                                            onFocus={handleFocus}
+                                            onBlur={handleBlur}
+                                        />
+                                    </div>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                        <div style={{ position: 'relative' }}>
+                                            <Award size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                                            <input
+                                                id="handicap"
+                                                type="number"
+                                                placeholder="Hándicap"
+                                                required={!isLogin}
+                                                value={formData.handicap}
+                                                onChange={(e) => setFormData({ ...formData, handicap: e.target.value })}
+                                                style={inputStyle}
+                                                onFocus={handleFocus}
+                                                onBlur={handleBlur}
+                                            />
+                                        </div>
+                                        <div style={{ position: 'relative' }}>
+                                            <Hash size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                                            <input
+                                                type="text"
+                                                placeholder="Código Fed."
+                                                required={!isLogin}
+                                                value={formData.federationCode}
+                                                onChange={(e) => setFormData({ ...formData, federationCode: e.target.value })}
+                                                style={inputStyle}
+                                                onFocus={handleFocus}
+                                                onBlur={handleBlur}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div style={{ position: 'relative' }}>
+                                        <Phone size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                                        <input
+                                            id="phone"
+                                            type="tel"
+                                            placeholder="Teléfono Celular"
+                                            required={!isLogin}
+                                            value={formData.phone}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            style={inputStyle}
+                                            onFocus={handleFocus}
+                                            onBlur={handleBlur}
+                                        />
+                                    </div>
                                 </motion.div>
                             )}
+                        </AnimatePresence>
 
-                            <div style={{ marginTop: '5px' }}>
-                                <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    type="submit"
-                                    disabled={loading}
-                                    className="btn-primary"
-                                    style={{
-                                        color: '#0f3923', // Keep the dark text color for this specific button as it was part of the original design on top of the gradient? Or should I strictly follow the new class which has primary text color? 
-                                        // The new class has `color: var(--primary)` which is dark green #0E2F1F.
-                                        // The original design had `#0f3923`. It's very similar.
-                                        // The new class is: color: var(--primary);
-                                        // Let's use the class fully.
-                                        // However, motion.button might need explicit styled props if I want to override or just className.
-                                        // Since I'm using className, I should remove the style prop EXCEPT for what's not in the class.
-                                        // But wait, the previous style had specific shadows.
-                                        // The class has shadows.
-                                        // I will remove the entire style prop and rely on the class.
-                                        // EXCEPT, wait. motion components accept style.
-                                    }}
-                                >
-                                    {loading ? <Loader2 className="animate-spin" size={18} /> : (
-                                        <>
-                                            {isLogin ? 'ENTRAR' : 'REGISTRARME'}
-                                            <ArrowRight size={16} />
-                                        </>
-                                    )}
-                                </motion.button>
-                            </div>
-                        </form>
-                    </div>
+                        <div style={{ position: 'relative' }}>
+                            <Mail size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="Correo Electrónico"
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                style={inputStyle}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                            />
+                        </div>
 
-                    {/* Footer Interactions */}
-                    <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                        <div style={{ position: 'relative' }}>
+                            <Lock size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Contraseña"
+                                required
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                style={inputStyle}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: 'absolute',
+                                    right: '16px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'rgba(255,255,255,0.4)',
+                                    cursor: 'pointer',
+                                    padding: '4px',
+                                }}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                style={{
+                                    fontSize: '13px',
+                                    color: error.includes('exitoso') ? '#4ade80' : '#f87171',
+                                    background: error.includes('exitoso') ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)',
+                                    padding: '12px',
+                                    borderRadius: '12px',
+                                    border: `1px solid ${error.includes('exitoso') ? 'rgba(74,222,128,0.2)' : 'rgba(248,113,113,0.2)'}`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <span>{error}</span>
+                            </motion.div>
+                        )}
+
+                        <motion.button
+                            whileHover={{ scale: 1.01, y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="submit"
+                            disabled={loading}
+                            className="btn-primary"
+                            style={{ marginTop: '8px', fontSize: '15px', padding: '16px' }}
+                        >
+                            {loading ? <Loader2 className="animate-spin" size={20} /> : (
+                                <>
+                                    {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                                    <ArrowRight size={18} />
+                                </>
+                            )}
+                        </motion.button>
+                    </form>
+
+                    <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
                         <button
                             onClick={() => setIsLogin(!isLogin)}
                             style={{
                                 background: 'none',
                                 border: 'none',
-                                color: 'rgba(255,255,255,0.7)',
-                                fontSize: '12px',
-                                cursor: 'pointer'
+                                color: 'var(--text-dim)',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                                transition: 'color 0.2s'
                             }}
+                            onMouseEnter={e => e.currentTarget.style.color = 'white'}
+                            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-dim)'}
                         >
                             {isLogin ? (
-                                <span>¿Nuevo en APEG? <span style={{ color: 'var(--secondary)', fontWeight: '600' }}>Crea tu cuenta</span></span>
+                                <span>¿Nuevo en APEG? <span style={{ color: 'var(--secondary)', fontWeight: 600 }}>Regístrate</span></span>
                             ) : (
-                                <span>¿Ya eres socio? <span style={{ color: 'var(--secondary)', fontWeight: '600' }}>Inicia sesión</span></span>
+                                <span>¿Ya tienes cuenta? <span style={{ color: 'var(--secondary)', fontWeight: 600 }}>Inicia Sesión</span></span>
                             )}
                         </button>
 
-                        <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                        <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.08)' }} />
 
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '8px' }}>
-                            <motion.button
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                disabled={true}
-                                style={{
-                                    width: '100%',
-                                    padding: '10px',
-                                    background: 'rgba(255, 255, 255, 0.08)',
-                                    color: 'white',
-                                    borderRadius: '10px',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                                    fontSize: '12px',
-                                    fontWeight: '500',
-                                    cursor: 'not-allowed',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '8px',
-                                    opacity: 0.6
-                                }}
-                            >
-                                <svg width="18" height="18" viewBox="0 0 24 24">
-                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                                </svg>
-                                <span>Iniciar con Google</span>
-                            </motion.button>
-
-                        </div>
+                        <button
+                            disabled={true}
+                            style={{
+                                width: '100%',
+                                padding: '14px',
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                color: 'white',
+                                borderRadius: '16px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                fontSize: '14px',
+                                fontWeight: 500,
+                                cursor: 'not-allowed',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '12px',
+                                opacity: 0.5
+                            }}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                            </svg>
+                            Continuar con Google
+                        </button>
                     </div>
-                </div>
-
-                <p style={{
-                    marginTop: '12px',
-                    color: 'rgba(255,255,255,0.3)',
-                    fontSize: '9px',
-                    textAlign: 'center',
-                    letterSpacing: '1px'
-                }}>
-                    © 2026 APEG
-                </p>
-            </motion.div>
+                </motion.div>
+            </div>
         </div>
     );
 };

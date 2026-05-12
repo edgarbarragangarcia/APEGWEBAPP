@@ -450,11 +450,7 @@ const Home: React.FC = () => {
                     <div style={{ width: '100%', paddingBottom: '20px' }}>
                         {/* Show skeleton loaders while loading */}
                         {!featuredProducts || featuredProducts.length === 0 || featuredLoading ? (
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: "repeat(2, 1fr)",
-                                gridAutoRows: '260px',
-                                gap: '12px',
+                            <div className="product-grid" style={{
                                 paddingBottom: '20px',
                                 justifyContent: 'center'
                             }}>
@@ -474,11 +470,7 @@ const Home: React.FC = () => {
                                 ))}
                             </div>
                         ) : filteredProducts.length > 0 ? (
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: "repeat(2, 1fr)",
-                                gridAutoRows: '260px',
-                                gap: '12px',
+                            <div className="product-grid" style={{
                                 paddingBottom: '20px',
                                 justifyContent: 'center'
                             }}>
