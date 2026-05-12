@@ -221,149 +221,141 @@ const Home: React.FC = () => {
     return (
         <>
             <div className="animate-fade" style={{
-            minHeight: '100vh',
-            width: '100%',
-            background: 'var(--primary)',
-            paddingTop: 'var(--navbar-height)',
-            overflowX: 'hidden'
-        }}>
-            {isWaitingForProduct && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    zIndex: 110000,
-                    background: 'var(--primary)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '20px'
-                }}>
-                    <Loader2 className="animate-spin" size={40} color="var(--secondary)" />
-                    <span style={{ color: 'white', fontSize: '14px', fontWeight: '600', opacity: 0.6 }}>Cargando producto...</span>
-                </div>
-            )}
-
-            <div style={{
-                opacity: isWaitingForProduct ? 0 : 1,
-                transition: 'opacity 0.3s ease',
+                minHeight: '100vh',
                 width: '100%',
+                background: 'var(--primary)',
+                paddingTop: 'var(--navbar-height)',
+                overflowX: 'hidden'
             }}>
-                {/* Hero Section - Now as a clean background/banner */}
-                <div style={{ position: 'relative', height: '300px', width: '100%', overflow: 'hidden' }}>
-                    <PageHero />
+                {isWaitingForProduct && (
                     <div style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         inset: 0,
-                        background: 'linear-gradient(to bottom, transparent 0%, var(--primary) 100%)',
-                        zIndex: 1
-                    }} />
-                    
-                    <div className="main-container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'flex-end', paddingBottom: '40px' }}>
-                        <PageHeader
-                            noMargin
-                            showBack={false}
-                            title={`Hola, ${profile?.full_name?.split(' ')[0] || 'Golfista'}`}
-                            subtitle="¿Listo para tu próxima victoria en el campo?"
-                        />
-                    </div>
-                </div>
-
-                <div className="main-container" style={{ marginTop: '-20px', position: 'relative', zIndex: 10 }}>
-                    
-                    {/* Category Tabs - Clean Scroll */}
-                    <div style={{
+                        zIndex: 110000,
+                        background: 'var(--primary)',
                         display: 'flex',
-                        gap: '10px',
-                        overflowX: 'auto',
-                        padding: '10px 0 20px 0',
-                        scrollbarWidth: 'none',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '20px'
                     }}>
-                        {categories.map((tab, idx) => (
-                            <button
-                                key={tab || `tab-${idx}`}
-                                onClick={() => {
-                                    if (tab === 'Todo') {
-                                        setActiveTab(tab);
-                                    } else {
-                                        logView('category', tab);
-                                        const route = tab.toLowerCase().replace(' ', '-');
-                                        navigate(`/category/${route}`);
-                                    }
-                                }}
-                                style={{
-                                    padding: '10px 22px',
-                                    borderRadius: '12px',
-                                    background: activeTab === tab ? 'var(--secondary)' : 'var(--bg-card)',
-                                    color: activeTab === tab ? 'var(--primary)' : 'white',
-                                    fontSize: '14px',
-                                    fontWeight: '700',
-                                    border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
-                                    whiteSpace: 'nowrap',
-                                    cursor: 'pointer',
-                                    boxShadow: activeTab === tab ? '0 4px 15px rgba(163,230,53,0.3)' : 'none'
-                                }}
-                            >
-                                {tab}
-                            </button>
-                        ))}
+                        <Loader2 className="animate-spin" size={40} color="var(--secondary)" />
+                        <span style={{ color: 'white', fontSize: '14px', fontWeight: '600', opacity: 0.6 }}>Cargando producto...</span>
+                    </div>
+                )}
+
+                <div style={{
+                    opacity: isWaitingForProduct ? 0 : 1,
+                    transition: 'opacity 0.3s ease',
+                    width: '100%',
+                }}>
+                    {/* Hero Section - The background banner */}
+                    <div style={{ position: 'relative', height: '220px', width: '100%', overflow: 'hidden' }}>
+                        <PageHero />
+                        <div style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'linear-gradient(to bottom, transparent 0%, var(--primary) 100%)',
+                            zIndex: 1
+                        }} />
                     </div>
 
-                    {/* Promotional Banners Carousel */}
-                    <div
-                        ref={carouselRef}
-                        style={{
-                            marginBottom: '40px',
-                            overflowX: 'auto',
-                            scrollSnapType: 'x mandatory',
-                            scrollbarWidth: 'none',
-                        }}
-                    >
-                        <div style={{ display: 'flex', gap: '20px' }}>
-                            {promotions.map((promo, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    whileHover={{ y: -4 }}
-                                    style={{
-                                        minWidth: '350px',
-                                        flex: '0 0 350px',
-                                        height: '200px',
-                                        borderRadius: '16px',
-                                        background: 'var(--bg-card)',
-                                        border: '1px solid rgba(255,255,255,0.08)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        position: 'relative',
-                                        overflow: 'hidden',
-                                        scrollSnapAlign: 'start',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    <div style={{ height: '60%', width: '100%', overflow: 'hidden' }}>
-                                        <img src={promo.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
-                                    </div>
-                                    <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                        <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>{promo.badge}</div>
-                                        <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'white', margin: 0 }}>{promo.title}</h3>
-                                    </div>
-                                </motion.div>
-                            ))}
+                    {/* Sticky Welcome Header */}
+                    <div style={{
+                        position: 'sticky',
+                        top: 'var(--navbar-height)',
+                        zIndex: 100,
+                        background: 'var(--primary)',
+                        padding: '20px 0',
+                        marginTop: '-60px',
+                    }}>
+                        <div className="main-container">
+                            <PageHeader
+                                noMargin
+                                showBack={false}
+                                title={`Hola, ${profile?.full_name?.split(' ')[0] || 'Golfista'}`}
+                                subtitle="¿Listo para tu próxima victoria en el campo?"
+                            />
                         </div>
                     </div>
 
-                    {/* Products Section */}
-                    <div style={{ marginBottom: '60px' }}>
-                        <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px', letterSpacing: '-0.5px' }}>
-                            Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
-                        </h2>
+                    <div className="main-container" style={{ position: 'relative', zIndex: 10 }}>
+                        {/* Category Tabs */}
+                        <div style={{
+                            display: 'flex',
+                            gap: '10px',
+                            overflowX: 'auto',
+                            padding: '10px 0 20px 0',
+                            scrollbarWidth: 'none',
+                        }}>
+                            {categories.map((tab, idx) => (
+                                <button
+                                    key={tab || `tab-${idx}`}
+                                    onClick={() => {
+                                        if (tab === 'Todo') {
+                                            setActiveTab(tab);
+                                        } else {
+                                            logView('category', tab);
+                                            const route = tab.toLowerCase().replace(' ', '-');
+                                            navigate(`/category/${route}`);
+                                        }
+                                    }}
+                                    style={{
+                                        padding: '10px 22px',
+                                        borderRadius: '12px',
+                                        background: activeTab === tab ? 'var(--secondary)' : 'var(--bg-card)',
+                                        color: activeTab === tab ? 'var(--primary)' : 'white',
+                                        fontSize: '14px',
+                                        fontWeight: '700',
+                                        border: '1px solid ' + (activeTab === tab ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
+                                        whiteSpace: 'nowrap',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
 
-                        {!featuredProducts || featuredProducts.length === 0 || featuredLoading ? (
-                            <div className="product-grid">
-                                {Array.from({ length: 10 }).map((_, index) => (
-                                    <div key={`skel-${index}`} style={{ height: '350px', background: 'var(--bg-card)', borderRadius: '12px', opacity: 0.3 }} className="skeleton" />
+                        {/* Promotions Carousel */}
+                        <div ref={carouselRef} style={{ marginBottom: '40px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
+                            <div style={{ display: 'flex', gap: '20px' }}>
+                                {promotions.map((promo, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        whileHover={{ y: -4 }}
+                                        style={{
+                                            minWidth: '350px',
+                                            flex: '0 0 350px',
+                                            height: '200px',
+                                            borderRadius: '16px',
+                                            background: 'var(--bg-card)',
+                                            border: '1px solid rgba(255,255,255,0.08)',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            scrollSnapAlign: 'start',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <div style={{ height: '60%', width: '100%', overflow: 'hidden' }}>
+                                            <img src={promo.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
+                                        </div>
+                                        <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>{promo.badge}</div>
+                                            <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'white', margin: 0 }}>{promo.title}</h3>
+                                        </div>
+                                    </motion.div>
                                 ))}
                             </div>
-                        ) : filteredProducts.length > 0 ? (
+                        </div>
+
+                        {/* Products Grid */}
+                        <div style={{ marginBottom: '60px' }}>
+                            <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'white', marginBottom: '24px' }}>
+                                Productos <span style={{ color: 'var(--secondary)' }}>Destacados</span>
+                            </h2>
                             <div className="product-grid">
                                 {filteredProducts.map((product, index) => (
                                     <motion.div
@@ -380,780 +372,145 @@ const Home: React.FC = () => {
                                     </motion.div>
                                 ))}
                             </div>
-                        ) : (
-                            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-dim)' }}>No se encontraron productos en esta categoría.</div>
-                        )}
-                    </div>
-
-                    {/* Tournaments Section */}
-                    <div style={{ paddingBottom: '80px' }}>
-                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                            <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>Próximos Torneos</h3>
-                            <button onClick={() => navigate('/tournaments')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: '700', cursor: 'pointer' }}>
-                                Ver calendario <ChevronRight size={16} />
-                            </button>
                         </div>
 
-                        <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
-                            {tournaments.map((tournament, index) => (
-                                <motion.div
-                                    key={tournament.id || index}
-                                    className="amazon-card"
-                                    onClick={() => navigate('/tournaments')}
-                                    style={{ padding: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}
-                                >
-                                    <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'var(--primary-light)', backgroundImage: `url(${tournament.image_url})`, backgroundSize: 'cover' }} />
-                                    <div>
-                                        <div style={{ fontWeight: '800', color: 'white', fontSize: '16px' }}>{tournament.name}</div>
-                                        <div style={{ color: 'var(--secondary)', fontSize: '13px', marginTop: '4px' }}>{new Date(tournament.date).toLocaleDateString()}</div>
+                        {/* Tournaments */}
+                        <div style={{ paddingBottom: '80px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>Próximos Torneos</h3>
+                                <button onClick={() => navigate('/tournaments')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: '700', cursor: 'pointer' }}>
+                                    Ver calendario <ChevronRight size={16} />
+                                </button>
+                            </div>
+                            <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+                                {tournaments.map((tournament, index) => (
+                                    <div key={tournament.id || index} className="amazon-card" onClick={() => navigate('/tournaments')} style={{ padding: '20px', display: 'flex', gap: '15px', alignItems: 'center', cursor: 'pointer' }}>
+                                        <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'var(--primary-light)', backgroundImage: `url(${tournament.image_url})`, backgroundSize: 'cover' }} />
+                                        <div>
+                                            <div style={{ fontWeight: '800', color: 'white', fontSize: '16px' }}>{tournament.name}</div>
+                                            <div style={{ color: 'var(--secondary)', fontSize: '13px', marginTop: '4px' }}>{new Date(tournament.date).toLocaleDateString()}</div>
+                                        </div>
                                     </div>
-                                </motion.div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            </div>
 
-            {/* Modals moved to the end of the component to ensure top stacking */}
+            {/* Modals */}
             <AnimatePresence>
-                {
-                    selectedProduct && (
+                {selectedProduct && (
+                    <motion.div
+                        key="product-modal"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            zIndex: 100000,
+                            background: 'rgba(0,0,0,0.85)',
+                            backdropFilter: 'blur(10px)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '40px',
+                            pointerEvents: 'auto'
+                        }}
+                    >
                         <motion.div
-                            key="product-modal"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
                             style={{
-                                position: 'fixed',
-                                inset: 0,
-                                zIndex: 100000, // Very high z-index to stay above BottomNav
+                                width: '100%',
+                                maxWidth: '1100px',
+                                height: '85vh',
                                 background: 'var(--primary)',
-                                pointerEvents: 'auto'
+                                borderRadius: '24px',
+                                overflow: 'hidden',
+                                display: 'flex',
+                                position: 'relative',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                boxShadow: '0 30px 60px rgba(0,0,0,0.8)'
                             }}
                         >
-                            <PageHero opacity={0.6} />
-                            <div style={{
-                                position: 'relative',
-                                width: '100%',
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                overflow: 'hidden'
-                            }}>
-                                {/* Header: Title & Back Button */}
-                                <div style={{
-                                    padding: 'calc(var(--header-height) + 15px) 20px 15px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'flex-start',
-                                    zIndex: 100,
-                                    position: 'relative'
-                                }}>
-                                    <div>
-                                        <h1 style={{
-                                            fontSize: '32px',
-                                            fontWeight: '950',
-                                            color: 'white',
-                                            textTransform: 'uppercase',
-                                            margin: 0,
-                                            lineHeight: '1',
-                                            letterSpacing: '-1px'
-                                        }}>
-                                            {selectedProduct.name}
-                                        </h1>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px' }}>
-                                            <span style={{
-                                                color: 'var(--secondary)',
-                                                fontSize: '11px',
-                                                fontWeight: '800',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.5px'
-                                            }}>
-                                                {selectedProduct.category}
-                                            </span>
-                                            {selectedProduct.brand && (
-                                                <span style={{
-                                                    color: 'rgba(255,255,255,0.4)',
-                                                    fontSize: '11px',
-                                                    fontWeight: '700',
-                                                    textTransform: 'uppercase',
-                                                    letterSpacing: '0.5px'
-                                                }}>
-                                                    • {selectedProduct.brand}
-                                                </span>
-                                            )}
-                                        </div>
+                            <button onClick={handleCloseProduct} style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 100, width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                                <ArrowLeft size={20} />
+                            </button>
+
+                            <div style={{ width: '55%', background: '#FFFFFF', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+                                    <img src={optimizeImage(productImages[currentImageIndex], { width: 800, height: 800 })} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} alt={selectedProduct.name} />
+                                </div>
+                                {productImages.length > 1 && (
+                                    <div style={{ padding: '20px', display: 'flex', gap: '10px', justifyContent: 'center', background: 'rgba(0,0,0,0.02)' }}>
+                                        {productImages.map((img, idx) => (
+                                            <button key={idx} onClick={() => setCurrentImageIndex(idx)} style={{ width: '60px', height: '60px', borderRadius: '8px', border: idx === currentImageIndex ? '2px solid var(--secondary)' : '1px solid #ddd', overflow: 'hidden', padding: 0, background: 'white' }}>
+                                                <img src={optimizeImage(img, { width: 100, height: 100 })} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            </button>
+                                        ))}
                                     </div>
-                                    <motion.button
-                                        whileTap={{ scale: 0.9 }}
-                                        onClick={handleCloseProduct}
-                                        style={{
-                                            width: '44px',
-                                            height: '44px',
-                                            borderRadius: '12px',
-                                            background: 'rgba(255,255,255,0.05)',
-                                            backdropFilter: 'blur(10px)',
-                                            border: '1px solid rgba(255,255,255,0.1)',
-                                            color: 'white',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <ArrowLeft size={24} />
+                                )}
+                            </div>
+
+                            <div style={{ width: '45%', padding: '50px', display: 'flex', flexDirection: 'column', overflowY: 'auto', background: 'var(--bg-card)' }}>
+                                <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                                    <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--secondary)', textTransform: 'uppercase' }}>{selectedProduct.brand}</span>
+                                    <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>• {selectedProduct.category}</span>
+                                </div>
+                                <h1 style={{ fontSize: '36px', fontWeight: '900', color: 'white', marginBottom: '15px', lineHeight: '1.1' }}>{selectedProduct.name}</h1>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '30px' }}>
+                                    <span style={{ fontSize: '18px', color: 'white' }}>$</span>
+                                    <span style={{ fontSize: '42px', fontWeight: '800', color: 'white' }}>{Number(selectedProduct.price).toLocaleString()}</span>
+                                </div>
+                                <div style={{ marginBottom: '30px', padding: '20px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                    <div style={{ fontSize: '11px', fontWeight: '700', color: 'var(--secondary)', textTransform: 'uppercase', marginBottom: '8px' }}>Descripción</div>
+                                    <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', margin: 0 }}>{selectedProduct.description || 'Sin descripción.'}</p>
+                                </div>
+                                <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    <motion.button whileTap={{ scale: 0.98 }} onClick={() => { addToCart(selectedProduct); warning('Producto añadido'); }} style={{ width: '100%', padding: '18px', borderRadius: '12px', background: 'var(--secondary)', color: 'var(--primary)', fontSize: '16px', fontWeight: '800', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                                        <ShoppingCart size={20} /> AÑADIR AL CARRITO
                                     </motion.button>
-                                </div>
-
-                                <div style={{
-                                    position: 'relative',
-                                    height: '45vh',
-                                    width: '100%',
-                                    flexShrink: 0,
-                                    background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    padding: '0 12px 30px 12px',
-                                    overflow: 'hidden'
-                                }}>
-                                    {/* Ambient Glow Background */}
-                                    <div style={{
-                                        position: 'absolute',
-                                        width: '150%',
-                                        height: '150%',
-                                        background: 'radial-gradient(circle at center, rgba(163, 230, 53, 0.05) 0%, transparent 60%)',
-                                        zIndex: 0,
-                                        filter: 'blur(40px)'
-                                    }} />
-
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        style={{
-                                            position: 'relative',
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: '32px',
-                                            overflow: 'hidden',
-                                            boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
-                                            border: '1px solid rgba(255,255,255,0.1)',
-                                            zIndex: 5,
-                                            background: 'var(--primary-light)'
-                                        }}
-                                    >
-                                        <AnimatePresence initial={false} mode="wait">
-                                            {currentImageIndex < productImages.length ? (
-                                                <motion.img
-                                                    key={`img-${currentImageIndex}`}
-                                                    src={optimizeImage(productImages[currentImageIndex], { width: 800, height: 1000 })}
-                                                    initial={{ opacity: 0, x: 20 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    exit={{ opacity: 0, x: -20 }}
-                                                    transition={{ duration: 0.3 }}
-                                                    drag="x"
-                                                    dragConstraints={{ left: 0, right: 0 }}
-                                                    dragElastic={0.2}
-                                                    onDragEnd={(_, info) => {
-                                                        const threshold = 30; // More sensitive threshold
-                                                        if (info.offset.x < -threshold && currentImageIndex < productImages.length) {
-                                                            setCurrentImageIndex(prev => prev + 1);
-                                                        } else if (info.offset.x > threshold && currentImageIndex > 0) {
-                                                            setCurrentImageIndex(prev => prev - 1);
-                                                        }
-                                                    }}
-                                                    style={{
-                                                        width: '100%',
-                                                        height: '100%',
-                                                        objectFit: 'cover',
-                                                        touchAction: 'none'
-                                                    }}
-                                                    alt={`${selectedProduct.name} - ${currentImageIndex + 1}`}
-                                                    onError={(e) => {
-                                                        const target = e.target as HTMLImageElement;
-                                                        target.src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&q=80&w=800';
-                                                    }}
-                                                />
-                                            ) : (
-                                                <motion.div
-                                                    key="description-slide"
-                                                    initial={{ opacity: 0, x: 20 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    exit={{ opacity: 0, x: -20 }}
-                                                    transition={{ duration: 0.3 }}
-                                                    drag="x"
-                                                    dragConstraints={{ left: 0, right: 0 }}
-                                                    dragElastic={0.2}
-                                                    onDragEnd={(_, info) => {
-                                                        const threshold = 30; // More sensitive threshold
-                                                        if (info.offset.x > threshold && currentImageIndex > 0) {
-                                                            setCurrentImageIndex(prev => prev - 1);
-                                                        }
-                                                    }}
-                                                    style={{
-                                                        width: '100%',
-                                                        height: '100%',
-                                                        padding: '60px 25px 40px',
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        background: 'rgba(0,0,0,0.6)',
-                                                        backdropFilter: 'blur(20px)',
-                                                        touchAction: 'none',
-                                                        overflowY: 'auto'
-                                                    }}
-                                                >
-                                                    <h3 style={{
-                                                        fontSize: '11px',
-                                                        fontWeight: '900',
-                                                        color: 'var(--secondary)',
-                                                        marginBottom: '15px',
-                                                        textTransform: 'uppercase',
-                                                        letterSpacing: '1px'
-                                                    }}>
-                                                        Descripción Completa
-                                                    </h3>
-                                                    <p style={{
-                                                        color: 'rgba(255,255,255,0.9)',
-                                                        lineHeight: '1.6',
-                                                        fontSize: '15px',
-                                                        margin: 0,
-                                                        whiteSpace: 'pre-wrap',
-                                                        wordBreak: 'break-word'
-                                                    }}>
-                                                        {selectedProduct.description || 'Sin descripción.'}
-                                                    </p>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-
-                                        {/* Pagination Dots (Included Description Slide) */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            bottom: '15px',
-                                            left: '50%',
-                                            transform: 'translateX(-50%)',
-                                            display: 'flex',
-                                            gap: '6px',
-                                            zIndex: 10,
-                                            padding: '6px 10px',
-                                            borderRadius: '20px',
-                                            background: 'rgba(0,0,0,0.2)',
-                                            backdropFilter: 'blur(5px)'
-                                        }}>
-                                            {[...Array(productImages.length + 1)].map((_, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    style={{
-                                                        width: idx === currentImageIndex ? '16px' : '6px',
-                                                        height: '6px',
-                                                        borderRadius: '3px',
-                                                        background: idx === currentImageIndex ? 'var(--secondary)' : 'rgba(255,255,255,0.4)',
-                                                        transition: 'all 0.3s ease'
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
-
-                                        {/* Dynamic Gradient Overlay */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            inset: 0,
-                                            background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 40%)',
-                                            zIndex: 2,
-                                            pointerEvents: 'none'
-                                        }} />
-
-                                        {/* Negociable Ribbon */}
-                                        {selectedProduct.is_negotiable && (
-                                            <div style={{
-                                                position: 'absolute',
-                                                top: '28px',
-                                                left: '-30px',
-                                                width: '130px',
-                                                background: 'var(--secondary)',
-                                                color: 'var(--primary)',
-                                                fontSize: '10px',
-                                                fontWeight: '950',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.08em',
-                                                textAlign: 'center',
-                                                padding: '7px 0',
-                                                transform: 'rotate(-45deg)',
-                                                transformOrigin: 'center center',
-                                                boxShadow: '0 4px 15px rgba(163, 230, 53, 0.5)',
-                                                zIndex: 10,
-                                                pointerEvents: 'none'
-                                            }}>
-                                                NEGOCIABLE
-                                            </div>
-                                        )}
-
-                                        {/* Heart Button Overlay */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '20px',
-                                            right: '20px',
-                                            zIndex: 10
-                                        }}>
-                                            <motion.button
-                                                whileTap={{ scale: 0.9 }}
-                                                onClick={() => toggleLike(selectedProduct.id)}
-                                                style={{
-                                                    width: '40px',
-                                                    height: '40px',
-                                                    borderRadius: '50%',
-                                                    background: 'rgba(0,0,0,0.3)',
-                                                    backdropFilter: 'blur(10px)',
-                                                    border: '1px solid rgba(255,255,255,0.1)',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    color: likedProducts.has(selectedProduct.id) ? '#ef4444' : 'white'
-                                                }}
-                                            >
-                                                <Heart
-                                                    size={20}
-                                                    fill={likedProducts.has(selectedProduct.id) ? '#ef4444' : 'none'}
-                                                />
-                                            </motion.button>
-                                        </div>
-
-                                        {/* Price + Envío + Condición Overlay sobre la foto */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            bottom: '20px',
-                                            left: '20px',
-                                            zIndex: 10,
-                                            pointerEvents: 'none'
-                                        }}>
-                                            <div style={{
-                                                fontSize: '26px',
-                                                fontWeight: '900',
-                                                color: 'var(--secondary)',
-                                                letterSpacing: '-0.5px',
-                                                textShadow: '0 2px 10px rgba(0,0,0,0.5)',
-                                                lineHeight: 1
-                                            }}>
-                                                ${new Intl.NumberFormat('es-CO').format(selectedProduct.price)}
-                                            </div>
-                                            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', fontWeight: '600', marginTop: '2px' }}>
-                                                {Number(selectedProduct.shipping_cost) > 0 ? (
-                                                    <>+ $ {new Intl.NumberFormat('es-CO').format(selectedProduct.shipping_cost)} envío</>
-                                                ) : (
-                                                    <span style={{ color: 'var(--secondary)', opacity: 0.85 }}>Envío GRATIS</span>
-                                                )}
-                                            </div>
-                                            {selectedProduct.condition && (
-                                                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '3px' }}>
-                                                    {selectedProduct.condition}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </motion.div>
-
-                                </div>
-
-                                <div style={{
-                                    position: 'relative',
-                                    flex: 1,
-                                    background: 'var(--primary)',
-                                    borderTopLeftRadius: '24px',
-                                    borderTopRightRadius: '24px',
-                                    marginTop: '-24px', // Reduced negative margin overlap
-                                    padding: '20px 20px 30px', // Reduced padding
-                                    zIndex: 5,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    overflow: 'hidden', // Disable global scrolling
-                                }}>
-                                    {/* Drag Handle */}
-                                    <div style={{
-                                        width: '32px',
-                                        height: '3px',
-                                        background: 'rgba(255,255,255,0.2)',
-                                        borderRadius: '2px',
-                                        margin: '0 auto 15px'
-                                    }} />
-
-                                    {/* Sizes + Action Buttons in same row */}
-                                    {selectedProduct.sizes_inventory && selectedProduct.sizes_inventory.length > 0 ? (
-                                        <div style={{ marginBottom: '15px' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                                                <h4 style={{ color: 'rgba(255,255,255,0.8)', fontSize: '11px', fontWeight: '800', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Talla</h4>
-                                                {selectedSize && (
-                                                    <span style={{ fontSize: '10px', color: 'var(--secondary)', fontWeight: '700' }}>
-                                                        {selectedProduct.sizes_inventory?.find((s: { size: string; quantity: number }) => s.size === selectedSize)?.quantity} disponibles
-                                                    </span>
-                                                )}
-                                            </div>
-                                            {/* Tallas y botones en la misma fila */}
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                                                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', flex: 1 }}>
-                                                    {selectedProduct.sizes_inventory.map((s: { size: string; quantity: number }, idx: number) => (
-                                                        <button
-                                                            key={s.size || `size-${idx}`}
-                                                            disabled={s.quantity <= 0}
-                                                            onClick={() => setSelectedSize(s.size)}
-                                                            style={{
-                                                                minWidth: '32px',
-                                                                height: '32px',
-                                                                borderRadius: '8px',
-                                                                border: '1px solid ' + (selectedSize === s.size ? 'var(--secondary)' : 'rgba(255,255,255,0.1)'),
-                                                                background: selectedSize === s.size ? 'var(--secondary)' : 'rgba(255,255,255,0.05)',
-                                                                color: selectedSize === s.size ? 'var(--primary)' : (s.quantity <= 0 ? 'rgba(255,255,255,0.2)' : 'white'),
-                                                                fontSize: '11px',
-                                                                fontWeight: '800',
-                                                                padding: '0 8px',
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center',
-                                                                transition: 'all 0.2s ease',
-                                                                opacity: s.quantity <= 0 ? 0.5 : 1,
-                                                                cursor: s.quantity <= 0 ? 'not-allowed' : 'pointer'
-                                                            }}
-                                                        >
-                                                            {s.size}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                                {/* Botones de acción */}
-                                                <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
-                                                    {selectedProduct.is_negotiable && (
-                                                        <motion.button
-                                                            whileTap={{ scale: 0.95 }}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                if (!user) return navigate('/auth');
-                                                                setShowOfferModal(true);
-                                                                setOfferAmount(selectedProduct.price.toString());
-                                                            }}
-                                                            style={{
-                                                                width: '38px',
-                                                                height: '38px',
-                                                                borderRadius: '10px',
-                                                                background: 'rgba(163, 230, 53, 0.1)',
-                                                                border: '1px solid var(--secondary)',
-                                                                color: 'var(--secondary)',
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center',
-                                                                cursor: 'pointer'
-                                                            }}
-                                                        >
-                                                            <Handshake size={18} />
-                                                        </motion.button>
-                                                    )}
-                                                    <motion.button
-                                                        whileTap={{ scale: 0.95 }}
-                                                        onClick={async (e) => {
-                                                            e.stopPropagation();
-                                                            if (selectedProduct.sizes_inventory && selectedProduct.sizes_inventory.length > 0 && !selectedSize) {
-                                                                warning('Falta seleccionar la talla');
-                                                                return;
-                                                            }
-                                                            try {
-                                                                setAddingToCart(selectedProduct.id);
-                                                                await addToCart({ ...selectedProduct } as any, selectedSize);
-                                                                setTimeout(() => setAddingToCart(null), 1500);
-                                                            } catch (err) {
-                                                                setAddingToCart(null);
-                                                            }
-                                                        }}
-                                                        style={{
-                                                            width: '38px',
-                                                            height: '38px',
-                                                            borderRadius: '10px',
-                                                            background: 'rgba(163, 230, 53, 0.1)',
-                                                            color: 'var(--secondary)',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            border: '1px solid rgba(163, 230, 53, 0.2)',
-                                                            cursor: 'pointer'
-                                                        }}
-                                                    >
-                                                        {addingToCart === selectedProduct.id ? <CheckCircle2 size={18} /> : <ShoppingCart size={18} />}
-                                                    </motion.button>
-                                                    <motion.button
-                                                        whileTap={{ scale: 0.95 }}
-                                                        onClick={async (e) => {
-                                                            e.stopPropagation();
-                                                            if (!user) return navigate('/auth');
-                                                            if (selectedProduct.sizes_inventory && selectedProduct.sizes_inventory.length > 0 && !selectedSize) {
-                                                                warning('Falta seleccionar la talla');
-                                                                return;
-                                                            }
-                                                            try {
-                                                                setBuying(true);
-                                                                await addToCart({ ...selectedProduct } as any, selectedSize);
-                                                                setSelectedProduct(null);
-                                                                navigate('/checkout');
-                                                            } catch (err) {
-                                                                setBuying(false);
-                                                            }
-                                                        }}
-                                                        disabled={buying}
-                                                        style={{
-                                                            width: '38px',
-                                                            height: '38px',
-                                                            borderRadius: '10px',
-                                                            background: 'var(--secondary)',
-                                                            color: 'var(--primary)',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            border: 'none',
-                                                            cursor: buying ? 'not-allowed' : 'pointer',
-                                                            opacity: buying ? 0.5 : 1
-                                                        }}
-                                                    >
-                                                        {buying ? <Loader2 className="animate-spin" size={18} /> : <DollarSign size={18} />}
-                                                    </motion.button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        /* Sin tallas: botones solos */
-                                        <div style={{ display: 'flex', gap: '8px', marginBottom: '15px' }}>
-                                            {selectedProduct.is_negotiable && (
-                                                <motion.button
-                                                    whileTap={{ scale: 0.95 }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (!user) return navigate('/auth');
-                                                        setShowOfferModal(true);
-                                                        setOfferAmount(selectedProduct.price.toString());
-                                                    }}
-                                                    style={{
-                                                        width: '38px',
-                                                        height: '38px',
-                                                        borderRadius: '10px',
-                                                        background: 'rgba(163, 230, 53, 0.1)',
-                                                        border: '1px solid var(--secondary)',
-                                                        color: 'var(--secondary)',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        cursor: 'pointer'
-                                                    }}
-                                                >
-                                                    <Handshake size={18} />
-                                                </motion.button>
-                                            )}
-                                            <motion.button
-                                                whileTap={{ scale: 0.95 }}
-                                                onClick={async (e) => {
-                                                    e.stopPropagation();
-                                                    try {
-                                                        setAddingToCart(selectedProduct.id);
-                                                        await addToCart({ ...selectedProduct } as any, selectedSize);
-                                                        setTimeout(() => setAddingToCart(null), 1500);
-                                                    } catch (err) {
-                                                        setAddingToCart(null);
-                                                    }
-                                                }}
-                                                style={{
-                                                    width: '38px',
-                                                    height: '38px',
-                                                    borderRadius: '10px',
-                                                    background: 'rgba(163, 230, 53, 0.1)',
-                                                    color: 'var(--secondary)',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    border: '1px solid rgba(163, 230, 53, 0.2)',
-                                                    cursor: 'pointer'
-                                                }}
-                                            >
-                                                {addingToCart === selectedProduct.id ? <CheckCircle2 size={18} /> : <ShoppingCart size={18} />}
-                                            </motion.button>
-                                            <motion.button
-                                                whileTap={{ scale: 0.95 }}
-                                                onClick={async (e) => {
-                                                    e.stopPropagation();
-                                                    if (!user) return navigate('/auth');
-                                                    try {
-                                                        setBuying(true);
-                                                        await addToCart({ ...selectedProduct } as any, selectedSize);
-                                                        setSelectedProduct(null);
-                                                        navigate('/checkout');
-                                                    } catch (err) {
-                                                        setBuying(false);
-                                                    }
-                                                }}
-                                                disabled={buying}
-                                                style={{
-                                                    width: '38px',
-                                                    height: '38px',
-                                                    borderRadius: '10px',
-                                                    background: 'var(--secondary)',
-                                                    color: 'var(--primary)',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    border: 'none',
-                                                    cursor: buying ? 'not-allowed' : 'pointer',
-                                                    opacity: buying ? 0.5 : 1
-                                                }}
-                                            >
-                                                {buying ? <Loader2 className="animate-spin" size={18} /> : <DollarSign size={18} />}
-                                            </motion.button>
-                                        </div>
+                                    {selectedProduct.is_negotiable && (
+                                        <motion.button whileTap={{ scale: 0.98 }} onClick={() => setShowOfferModal(true)} style={{ width: '100%', padding: '18px', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', color: 'white', fontSize: '16px', fontWeight: '700', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer' }}>
+                                            HACER UNA OFERTA
+                                        </motion.button>
                                     )}
-
-
-
-
                                 </div>
-
                             </div>
                         </motion.div>
-                    )
-                }
-            </AnimatePresence >
+                    </motion.div>
+                )}
 
-            <AnimatePresence>
                 {showOfferModal && selectedProduct && (
-                    <div key="offer-modal" style={{
-                        position: 'fixed',
-                        inset: 0,
-                        zIndex: 110000, // Higher than ProductModal
-                        display: 'flex',
-                        alignItems: 'flex-end',
-                        justifyContent: 'center'
-                    }}>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setShowOfferModal(false)}
-                            style={{
-                                position: 'fixed',
-                                inset: 0,
-                                background: 'rgba(0,0,0,0.4)',
-                                backdropFilter: 'blur(10px)'
-                            }}
-                        />
-                        <motion.div
-                            initial={{ y: '100%' }}
-                            animate={{ y: 0 }}
-                            exit={{ y: '100%' }}
-                            style={{
-                                width: '100%',
-                                maxWidth: 'var(--app-max-width)',
-                                background: 'var(--primary)',
-                                borderTopLeftRadius: '32px',
-                                borderTopRightRadius: '32px',
-                                padding: '30px 25px calc(110px + env(safe-area-inset-bottom)) 25px',
-                                position: 'relative',
-                                boxShadow: '0 -10px 40px rgba(0,0,0,0.5)',
-                                border: '1px solid rgba(255,255,255,0.05)'
-                            }}
-                        >
+                    <div key="offer-modal" style={{ position: 'fixed', inset: 0, zIndex: 110000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowOfferModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(10px)' }} />
+                        <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} style={{ width: '100%', maxWidth: '500px', background: 'var(--primary)', borderTopLeftRadius: '32px', borderTopRightRadius: '32px', padding: '30px', position: 'relative', boxShadow: '0 -10px 40px rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.05)' }}>
                             {!offerSuccess ? (
                                 <>
                                     <div style={{ display: 'flex', gap: '20px', marginBottom: '25px' }}>
-                                        <img
-                                            src={selectedProduct.image_url || ''}
-                                            style={{ width: '80px', height: '80px', borderRadius: '16px', objectFit: 'cover' }}
-                                            alt=""
-                                        />
-                                        <div>
-                                            <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'white' }}>Nueva Oferta</h3>
-                                            <p style={{ fontSize: '14px', color: 'var(--text-dim)' }}>{selectedProduct.name}</p>
-                                        </div>
+                                        <img src={selectedProduct.image_url || ''} style={{ width: '80px', height: '80px', borderRadius: '16px', objectFit: 'cover' }} alt="" />
+                                        <div><h3 style={{ fontSize: '20px', fontWeight: '900', color: 'white' }}>Nueva Oferta</h3><p style={{ fontSize: '14px', color: 'var(--text-dim)' }}>{selectedProduct.name}</p></div>
                                     </div>
-
                                     <div style={{ marginBottom: '20px' }}>
                                         <label style={{ display: 'block', fontSize: '11px', fontWeight: '900', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '10px' }}>Tu propuesta</label>
                                         <div style={{ position: 'relative' }}>
                                             <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontWeight: '900', color: 'var(--secondary)', fontSize: '20px' }}>$</span>
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                value={offerAmount ? new Intl.NumberFormat('es-CO').format(parseInt(offerAmount.replace(/\D/g, '') || '0')) : ''}
-                                                onChange={(e) => setOfferAmount(e.target.value.replace(/\D/g, ''))}
-                                                style={{
-                                                    width: '100%',
-                                                    background: 'rgba(255,255,255,0.03)',
-                                                    border: '1px solid rgba(255,255,255,0.1)',
-                                                    borderRadius: '20px',
-                                                    padding: '20px 20px 20px 45px',
-                                                    color: 'white',
-                                                    fontSize: '28px',
-                                                    fontWeight: '900',
-                                                    outline: 'none'
-                                                }}
-                                            />
+                                            <input type="text" value={offerAmount} onChange={(e) => setOfferAmount(e.target.value.replace(/\D/g, ''))} style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '20px 20px 20px 45px', color: 'white', fontSize: '28px', fontWeight: '900', outline: 'none' }} />
                                         </div>
                                     </div>
-
                                     <div style={{ display: 'flex', gap: '15px' }}>
-                                        <motion.button
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={() => setShowOfferModal(false)}
-                                            style={{
-                                                flex: 1,
-                                                padding: '18px',
-                                                borderRadius: '20px',
-                                                background: 'rgba(255,255,255,0.05)',
-                                                border: '1px solid rgba(255,255,255,0.1)',
-                                                color: 'white',
-                                                fontWeight: '800'
-                                            }}
-                                        >
-                                            CANCELAR
-                                        </motion.button>
-                                        <motion.button
-                                            whileTap={{ scale: 0.95 }}
-                                            disabled={sendingOffer || !offerAmount}
-                                            onClick={async () => {
-                                                setSendingOffer(true);
-                                                try {
-                                                    const { data: insertedOffer, error } = await supabase
-                                                        .from('offers')
-                                                        .insert([{
-                                                            product_id: selectedProduct.id,
-                                                            buyer_id: user?.id,
-                                                            seller_id: selectedProduct.seller_id,
-                                                            offer_amount: parseFloat(offerAmount),
-                                                            status: 'pending'
-                                                        }]).select().single();
-                                                    if (error) throw error;
-
-                                                    // Send notification to seller
-                                                    await supabase
-                                                        .from('notifications')
-                                                        .insert([{
-                                                            user_id: selectedProduct.seller_id,
-                                                            title: 'Nueva oferta recibida',
-                                                            message: `Has recibido una oferta de $${new Intl.NumberFormat('es-CO').format(parseInt(offerAmount))} por tu producto ${selectedProduct.name}`,
-                                                            type: 'offer',
-                                                            link: `/my-store?tab=offers&offer_id=${insertedOffer.id}`,
-                                                            read: false
-                                                        }]);
-
-                                                    setOfferSuccess(true);
-                                                    setTimeout(() => {
-                                                        setOfferSuccess(false);
-                                                        setShowOfferModal(false);
-                                                        setSelectedProduct(null);
-                                                        // Important: If we were on a product detail URL, go back home
-                                                        navigate('/', { replace: true });
-                                                    }, 2000);
-                                                } catch (err) {
-                                                    console.error(err);
-                                                } finally {
-                                                    setSendingOffer(false);
-                                                }
-                                            }}
-                                            className="btn-primary"
-                                            style={{ flex: 2, width: 'auto' }}
-                                        >
-                                            {sendingOffer ? 'ENVIANDO...' : 'ENVIAR OFERTA'}
-                                        </motion.button>
+                                        <button onClick={() => setShowOfferModal(false)} style={{ flex: 1, padding: '18px', borderRadius: '20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontWeight: '800' }}>CANCELAR</button>
+                                        <button disabled={sendingOffer || !offerAmount} onClick={async () => {
+                                            setSendingOffer(true);
+                                            try {
+                                                const { data: insertedOffer, error } = await supabase.from('offers').insert([{ product_id: selectedProduct.id, buyer_id: user?.id, seller_id: selectedProduct.seller_id, offer_amount: parseFloat(offerAmount), status: 'pending' }]).select().single();
+                                                if (error) throw error;
+                                                setOfferSuccess(true);
+                                                setTimeout(() => { setOfferSuccess(false); setShowOfferModal(false); setSelectedProduct(null); navigate('/', { replace: true }); }, 2000);
+                                            } catch (err) { console.error(err); } finally { setSendingOffer(false); }
+                                        }} className="btn-primary" style={{ flex: 2, width: 'auto' }}>{sendingOffer ? 'ENVIANDO...' : 'ENVIAR OFERTA'}</button>
                                     </div>
                                 </>
                             ) : (
@@ -1165,11 +522,9 @@ const Home: React.FC = () => {
                         </motion.div>
                     </div>
                 )}
-
             </AnimatePresence>
         </>
     );
 };
-
 
 export default Home;
